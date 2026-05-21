@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Formação em Cardiologia · HC-UFPE</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0B1F3A;--navy-mid:#163354;--cobalt:#1A5FA8;--cobalt-l:#2E7DD4;
+  --sky:#EBF3FB;--sky-mid:#C8DDF4;--amber:#D4860A;--amber-bg:#FEF5E7;
+  --red:#C0392B;--red-bg:#FDECEA;--green:#1A7A4A;--green-bg:#E8F6EE;
+  --purple:#6B3FB5;--purple-bg:#F0EDF9;--teal:#0F6B60;--teal-bg:#E0F4F1;
+  --g50:#F7F8FA;--g100:#EEF0F4;--g200:#D8DCE5;--g300:#B8BFCC;--g500:#6B7489;--g700:#3A3F52;
+  --white:#FFF;--text:#0D1B2E;--muted:#5A6278;--light:#8A91A5;
+  --rsm:6px;--r:10px;--rlg:14px;
+  --sh-sm:0 1px 3px rgba(11,31,58,.08);--sh:0 4px 12px rgba(11,31,58,.10);--sh-lg:0 8px 24px rgba(11,31,58,.14);
+  --tr:.18s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:'DM Sans',sans-serif;background:var(--g50);color:var(--text);min-height:100vh}
+
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,#1a3a6b 100%)}
+.login-box{background:var(--white);border-radius:var(--rlg);padding:36px 32px;width:100%;max-width:400px;box-shadow:var(--sh-lg)}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.login-logo-icon{width:44px;height:44px;background:var(--sky);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.login-title{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--navy);line-height:1.2}
+.login-title small{display:block;font-family:'DM Sans',sans-serif;font-size:.7rem;color:var(--muted);font-weight:400}
+.profile-btns{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.pb{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid var(--g200);border-radius:var(--r);cursor:pointer;background:var(--white);font-family:inherit;text-align:left;transition:all var(--tr)}
+.pb:hover{border-color:var(--cobalt);background:var(--sky)}
+.pb.sel{border-color:var(--cobalt);background:var(--sky)}
+.pb-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.pb-name{font-size:.87rem;font-weight:600;color:var(--text)}
+.pb-desc{font-size:.73rem;color:var(--muted)}
+.login-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.login-input{width:100%;padding:9px 12px;border:1px solid var(--g200);border-radius:var(--rsm);font-size:.87rem;font-family:inherit;margin-bottom:11px;transition:border var(--tr)}
+.login-input:focus{outline:none;border-color:var(--cobalt-l);box-shadow:0 0 0 3px rgba(26,95,168,.08)}
+.login-lgpd{background:var(--g50);border:1px solid var(--g200);border-radius:var(--rsm);padding:11px;margin-bottom:14px;font-size:.76rem;color:var(--muted);line-height:1.55}
+.login-lgpd label{display:flex;gap:7px;align-items:flex-start;cursor:pointer}
+.login-btn{width:100%;padding:11px;background:var(--cobalt);color:white;border:none;border-radius:var(--rsm);font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:background var(--tr)}
+.login-btn:hover{background:var(--cobalt-l)}
+.login-error{color:var(--red);font-size:.78rem;margin-bottom:8px;min-height:16px;text-align:center}
+.login-hint{text-align:center;font-size:.7rem;color:var(--g300);margin-top:10px}
+.login-ok{text-align:center;font-size:.72rem;color:var(--green);margin-top:6px;font-weight:500}
+
+/* APP */
+#app{display:none;flex-direction:column;min-height:100vh}
+#app.on{display:flex}
+
+/* TOPBAR */
+.topbar{background:var(--navy);color:white;height:52px;padding:0 22px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:var(--sh);flex-shrink:0}
+.tb-title{font-family:'DM Serif Display',serif;font-size:.98rem;line-height:1.2}
+.tb-title small{display:block;font-family:'DM Sans',sans-serif;font-size:.64rem;font-weight:300;opacity:.6;letter-spacing:.05em}
+.tb-space{flex:1}
+.tb-pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:var(--rsm);padding:4px 10px;font-size:.76rem;cursor:pointer}
+.tb-pill:hover{background:rgba(255,255,255,.18)}
+.tb-dot{width:6px;height:6px;border-radius:50%;background:#F5A623}
+.tb-user{font-size:.76rem;opacity:.7}
+.tb-logout{font-size:.72rem;opacity:.55;cursor:pointer;padding:4px 8px;border-radius:var(--rsm)}
+.tb-logout:hover{opacity:1;background:rgba(255,255,255,.12)}
+#tb-clock{font-size:.72rem;opacity:.45;min-width:85px;text-align:right}
+
+/* SHELL */
+.shell{display:flex;flex:1}
+
+/* SIDEBAR */
+.sidebar{width:208px;background:var(--white);border-right:1px solid var(--g200);display:flex;flex-direction:column;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto;flex-shrink:0}
+.sb-sec{padding:14px 10px 5px}
+.sb-lbl{font-size:.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--light);padding:0 8px;margin-bottom:3px}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--rsm);font-size:.82rem;color:var(--muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all var(--tr)}
+.ni:hover{background:var(--g50);color:var(--text)}
+.ni.on{background:var(--sky);color:var(--cobalt);font-weight:500}
+.ni svg{opacity:.65;flex-shrink:0}
+.ni.on svg{opacity:1}
+.nb{margin-left:auto;background:var(--cobalt);color:white;font-size:.63rem;font-weight:700;padding:1px 6px;border-radius:999px;min-width:17px;text-align:center}
+.nb.w{background:var(--amber)}.nb.d{background:var(--red)}
+.sb-foot{margin-top:auto;padding:12px;border-top:1px solid var(--g100);font-size:.7rem;color:var(--light);line-height:1.6}
+.perfil-tag{display:inline-block;font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:999px;margin-bottom:5px}
+
+/* MAIN */
+.main{flex:1;padding:22px 26px;overflow-x:hidden}
+.page{display:none;animation:fadeUp .2s ease}
+.page.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* PAGE HEADER */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.ph-title{font-family:'DM Serif Display',serif;font-size:1.45rem;color:var(--navy);line-height:1.2}
+.ph-sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:11px;margin-bottom:22px}
+.mc{background:var(--white);border:1px solid var(--g200);border-radius:var(--r);padding:13px 15px;box-shadow:var(--sh-sm)}
+.mc.acc{background:var(--navy);border-color:var(--navy)}
+.mc-lbl{font-size:.7rem;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;font-weight:500}
+.mc.acc .mc-lbl{color:rgba(255,255,255,.55)}
+.mc-val{font-family:'DM Serif Display',serif;font-size:1.85rem;color:var(--navy);line-height:1}
+.mc.acc .mc-val{color:white}
+.mc-sub{font-size:.7rem;color:var(--light);margin-top:3px}
+.mc.acc .mc-sub{color:rgba(255,255,255,.4)}
+
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--g200);border-radius:var(--rlg);padding:16px 18px;box-shadow:var(--sh-sm);margin-bottom:12px}
+.card-title{font-size:.9rem;font-weight:600;color:var(--navy);margin-bottom:10px}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:600;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.b-blue{background:var(--sky);color:var(--cobalt)}
+.b-navy{background:var(--navy);color:white}
+.b-amber{background:var(--amber-bg);color:var(--amber)}
+.b-red{background:var(--red-bg);color:var(--red)}
+.b-green{background:var(--green-bg);color:var(--green)}
+.b-gray{background:var(--g100);color:var(--g700)}
+.b-purple{background:var(--purple-bg);color:var(--purple)}
+.b-teal{background:var(--teal-bg);color:var(--teal)}
+
+/* NOTICES */
+.notice{border-left:3px solid;background:var(--white);border-radius:0 var(--r) var(--r) 0;padding:10px 13px;margin-bottom:8px;box-shadow:var(--sh-sm);display:flex;gap:10px;align-items:flex-start}
+.notice.urgent{border-color:var(--red)}.notice.info{border-color:var(--cobalt)}
+.notice.prazo{border-color:var(--amber)}.notice.edu{border-color:var(--green)}
+.notice-title{font-size:.86rem;font-weight:600}
+.notice-desc{font-size:.78rem;color:var(--muted);margin-top:2px;line-height:1.5}
+.notice-footer{display:flex;align-items:center;gap:7px;margin-top:4px;flex-wrap:wrap}
+.notice-date{font-size:.7rem;color:var(--light)}
+.ndel{font-size:.7rem;color:var(--red);cursor:pointer;margin-left:auto;background:none;border:none}
+
+/* TABS */
+.tabs-bar{display:flex;gap:2px;border-bottom:2px solid var(--g200);margin-bottom:16px;overflow-x:auto}
+.tab-btn{padding:8px 15px;font-size:.8rem;font-weight:500;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-family:inherit;white-space:nowrap;transition:all var(--tr)}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.on{color:var(--cobalt);border-bottom-color:var(--cobalt)}
+.tp{display:none}.tp.on{display:block}
+
+/* FORM */
+.fr{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:10px}
+.fg{flex:1;min-width:130px}
+.fg.full{flex:0 0 100%}
+.fl{display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px}
+.fi{width:100%;padding:7px 10px;border:1px solid var(--g200);border-radius:var(--rsm);font-size:.83rem;font-family:inherit;color:var(--text);background:var(--white);transition:border var(--tr)}
+.fi:focus{outline:none;border-color:var(--cobalt-l);box-shadow:0 0 0 3px rgba(26,95,168,.08)}
+textarea.fi{min-height:75px;resize:vertical;line-height:1.5}
+select.fi{cursor:pointer}
+.fi[readonly]{background:var(--g50);color:var(--muted)}
+
+/* BUTTONS */
+.btn{padding:7px 14px;border-radius:var(--rsm);font-size:.81rem;font-weight:500;cursor:pointer;font-family:inherit;transition:all var(--tr);display:inline-flex;align-items:center;gap:5px;border:1px solid transparent}
+.btn-p{background:var(--cobalt);color:white;border-color:var(--cobalt)}
+.btn-p:hover{background:var(--cobalt-l)}
+.btn-s{background:var(--white);color:var(--text);border-color:var(--g200)}
+.btn-s:hover{background:var(--g50);border-color:var(--g300)}
+.btn-d{background:var(--red-bg);color:var(--red);border-color:#F5C0BB}
+.btn-g{background:var(--green-bg);color:var(--green);border-color:#A8D9BC}
+.btn-sm{padding:4px 9px;font-size:.75rem}
+
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(11,31,58,.45);z-index:200;align-items:center;justify-content:center;padding:16px}
+.mo.on{display:flex}
+.modal{background:var(--white);border-radius:var(--rlg);padding:22px 24px;width:100%;max-width:490px;box-shadow:var(--sh-lg);max-height:90vh;overflow-y:auto}
+.modal.wide{max-width:660px}
+.modal-title{font-family:'DM Serif Display',serif;font-size:1.12rem;color:var(--navy);margin-bottom:14px}
+.modal-foot{display:flex;justify-content:flex-end;gap:7px;margin-top:16px}
+
+/* FORMANDO GRID */
+.fa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(162px,1fr));gap:9px}
+.fa-card{background:var(--white);border:1px solid var(--g200);border-radius:var(--rlg);padding:13px;cursor:pointer;transition:all var(--tr);box-shadow:var(--sh-sm)}
+.fa-card:hover{box-shadow:var(--sh);border-color:var(--sky-mid);transform:translateY(-1px)}
+.fa-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:600;margin-bottom:8px}
+.av-r{background:var(--sky);color:var(--cobalt)}
+.av-e{background:var(--amber-bg);color:var(--amber)}
+.av-eco{background:var(--teal-bg);color:var(--teal)}
+.fa-name{font-size:.83rem;font-weight:600;line-height:1.3;margin-bottom:2px}
+.fa-meta{font-size:.71rem;color:var(--muted)}
+
+/* FICHA */
+.ficha-wrap{display:none}.ficha-wrap.on{display:block}
+.lista-wrap.off{display:none}
+.breadcrumb{display:flex;align-items:center;gap:5px;font-size:.76rem;color:var(--muted);margin-bottom:16px;cursor:pointer}
+.breadcrumb span{color:var(--cobalt);font-weight:500;cursor:default}
+.fh{background:var(--white);border:1px solid var(--g200);border-radius:var(--rlg);padding:18px 22px;margin-bottom:16px;box-shadow:var(--sh-sm);display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.fh-av{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:600;flex-shrink:0}
+.fh-info{flex:1;min-width:0}
+.fh-name{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--navy)}
+.fh-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;align-items:center}
+.fh-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+
+/* EPA */
+.epa-btn{padding:4px 9px;border-radius:var(--rsm);font-size:.73rem;font-weight:500;cursor:pointer;border:1.5px solid var(--g200);background:var(--white);color:var(--muted);transition:all var(--tr);font-family:inherit}
+.epa-btn.s1{background:#FDECEA;color:#8B1A1A;border-color:#E8A09A}
+.epa-btn.s2{background:#FEF5E7;color:#7A4A00;border-color:#F0C070}
+.epa-btn.s3{background:#EBF3FB;color:#0C3D7A;border-color:#7EB2E0}
+.epa-btn.s4{background:#E8F6EE;color:#0D4A2A;border-color:#6DC498}
+.epa-btn.s5{background:#F0EDF9;color:#3D1F8A;border-color:#A08ADB}
+.epa-dot{width:18px;height:5px;border-radius:3px;background:var(--g200)}
+.epa-dot.l1{background:#E8A09A}.epa-dot.l2{background:#F0C070}
+.epa-dot.l3{background:#7EB2E0}.epa-dot.l4{background:#6DC498}.epa-dot.l5{background:#A08ADB}
+
+/* NOTA ROW */
+.nota-row{display:flex;align-items:center;gap:11px;padding:8px 11px;border-radius:var(--rsm);transition:background var(--tr)}
+.nota-row:hover{background:var(--g50)}
+.nc{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.88rem;font-weight:700;flex-shrink:0}
+.nc-ok{background:var(--green-bg);color:var(--green)}.nc-w{background:var(--amber-bg);color:var(--amber)}.nc-na{background:var(--g100);color:var(--g500)}
+
+/* ROD MENSAL */
+.rod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.rod-mes{background:var(--g50);border:1px solid var(--g200);border-radius:var(--rsm);padding:7px 9px}
+.rod-mes-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:3px}
+.rod-mes input{width:100%;border:none;background:transparent;font-size:.8rem;font-family:inherit;color:var(--text)}
+.rod-mes input:focus{outline:none}
+
+/* PDI */
+.pdi-row{border:1px solid var(--g200);border-radius:var(--r);padding:12px;margin-bottom:8px;background:var(--white)}
+.pdi-row.ok{border-left:3px solid var(--green)}
+.pdi-row.and{border-left:3px solid var(--amber)}
+.pdi-row.pend{border-left:3px solid var(--red)}
+
+/* MILESTONES */
+.ms-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--g100)}
+.ms-item:last-child{border:none}
+.ms-bar-wrap{flex:1;height:5px;background:var(--g200);border-radius:999px;overflow:hidden}
+.ms-bar{height:100%;border-radius:999px}
+
+/* MSG */
+.msg-bubble{padding:9px 13px;border-radius:0 var(--r) var(--r) var(--r);font-size:.81rem;line-height:1.5;max-width:85%}
+.msg-bubble.sent{background:var(--sky);border-radius:var(--r) 0 var(--r) var(--r);margin-left:auto}
+.msg-bubble.recv{background:var(--g100)}
+.msg-from{font-size:.68rem;font-weight:600;color:var(--muted);margin-bottom:2px}
+.msg-time{font-size:.66rem;color:var(--light);margin-top:2px}
+
+/* METAS AREA */
+.meta-card{border:1px solid var(--g200);border-radius:var(--r);padding:14px;background:var(--white)}
+.meta-card.principal{border-color:currentColor}
+
+/* SCHED */
+table.sched{width:100%;border-collapse:collapse;font-size:.81rem}
+table.sched th{text-align:left;padding:8px 11px;background:var(--g50);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--g200)}
+table.sched td{padding:9px 11px;border-bottom:1px solid var(--g100);vertical-align:top}
+table.sched tr:last-child td{border-bottom:none}
+table.sched tr.today td{background:#F0F6FF}
+.pill{display:inline-flex;align-items:center;font-size:.72rem;padding:2px 7px;border-radius:999px;margin:1px;white-space:nowrap}
+.p-blue{background:var(--sky);color:var(--cobalt)}.p-amber{background:var(--amber-bg);color:var(--amber)}
+.p-red{background:var(--red-bg);color:var(--red);font-weight:600}.p-green{background:var(--green-bg);color:var(--green)}
+.p-gray{background:var(--g100);color:var(--g700)}.p-purple{background:var(--purple-bg);color:var(--purple)}
+.p-teal{background:var(--teal-bg);color:var(--teal)}.p-navy{background:var(--sky-mid);color:var(--navy-mid)}
+
+/* ROT TABLE */
+table.rot{width:100%;border-collapse:collapse;font-size:.79rem;min-width:900px}
+table.rot th{text-align:left;padding:7px 10px;background:var(--g50);font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--g200)}
+table.rot td{padding:7px 10px;border-bottom:1px solid var(--g100);vertical-align:middle}
+table.rot tr:last-child td{border-bottom:none}
+table.rot tr:hover td{background:var(--g50)}
+
+/* MISC */
+.divider{height:1px;background:var(--g100);margin:14px 0}
+.sl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:7px}
+.empty{text-align:center;padding:32px 20px;color:var(--muted)}
+.empty-icon{font-size:2rem;margin-bottom:8px;opacity:.3}
+.grp-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--g200);display:flex;align-items:center;gap:5px}
+.toolbar{display:flex;align-items:center;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+.search-box{flex:1;min-width:170px;max-width:270px;padding:7px 10px 7px 30px;border:1px solid var(--g200);border-radius:var(--rsm);font-size:.81rem;background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7' stroke='%238A91A5' stroke-width='1.8'/%3E%3Cpath d='m16.5 16.5 4 4' stroke='%238A91A5' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 9px center;font-family:inherit;color:var(--text)}
+.search-box:focus{outline:none;border-color:var(--cobalt-l)}
+.fb{padding:5px 11px;border:1px solid var(--g200);border-radius:var(--rsm);font-size:.78rem;background:var(--white);color:var(--muted);cursor:pointer;font-family:inherit;transition:all var(--tr)}
+.fb:hover,.fb.on{background:var(--sky);color:var(--cobalt);border-color:var(--sky-mid)}
+.link-tag{display:inline-flex;align-items:center;gap:4px;font-size:.76rem;color:var(--cobalt);background:var(--sky);border-radius:var(--rsm);padding:3px 8px;text-decoration:none;transition:background var(--tr);max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link-tag:hover{background:var(--sky-mid)}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:white;padding:9px 15px;border-radius:var(--r);font-size:.8rem;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.on{opacity:1}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:var(--g200);border-radius:3px}
+@media(max-width:700px){.sidebar{display:none}.main{padding:14px}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+          <path d="M14 7c-1.5 0-2.8.6-3.7 1.6C9.4 9.6 9 10.8 9 12c0 3.5 5 9 5 9s5-5.5 5-9c0-1.2-.4-2.4-1.3-3.4C16.8 7.6 15.5 7 14 7z" fill="#1A5FA8"/>
+          <circle cx="14" cy="12" r="2" fill="#C8DDF4"/>
+        </svg>
+      </div>
+      <div class="login-title">Formação em Cardiologia <small>HC-UFPE · Sistema de Gestão</small></div>
+    </div>
+    <div class="login-lbl">Selecione seu perfil</div>
+    <div class="profile-btns">
+      <button class="pb" id="pb-coord" onclick="selecionarPerfil('coordenador')">
+        <div class="pb-icon" style="background:#EBF3FB;color:#1A5FA8">🎓</div>
+        <div><div class="pb-name">Coordenador</div><div class="pb-desc">Acesso completo</div></div>
+      </button>
+      <button class="pb" id="pb-prec" onclick="selecionarPerfil('preceptor')">
+        <div class="pb-icon" style="background:#E8F6EE;color:#1A7A4A">👨‍⚕️</div>
+        <div><div class="pb-name">Supervisor / Preceptor</div><div class="pb-desc">Fichas e avaliações</div></div>
+      </button>
+      <button class="pb" id="pb-form" onclick="selecionarPerfil('formando')">
+        <div class="pb-icon" style="background:#FEF5E7;color:#D4860A">🩺</div>
+        <div><div class="pb-name">Residente / Especializando</div><div class="pb-desc">Minha ficha</div></div>
+      </button>
+    </div>
+    <div class="login-lbl">Senha</div>
+    <input class="login-input" type="password" id="senha" placeholder="Digite sua senha"/>
+    <div class="login-lgpd">
+      <label>
+        <input type="checkbox" id="lgpd"/>
+        <span>Li e concordo com o tratamento dos meus dados conforme a <strong>LGPD (Lei 13.709/2018)</strong> para fins de gestão da formação médica no HC-UFPE.</span>
+      </label>
+    </div>
+    <div class="login-error" id="lerr"></div>
+    <button class="login-btn" onclick="entrar()">Entrar</button>
+    <div class="login-hint">Senhas: coord123 · prec123 · form123</div>
+    <div class="login-ok" id="lok"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header class="topbar">
+    <svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M14 7c-1.5 0-2.8.6-3.7 1.6C9.4 9.6 9 10.8 9 12c0 3.5 5 9 5 9s5-5.5 5-9c0-1.2-.4-2.4-1.3-3.4C16.8 7.6 15.5 7 14 7z" fill="rgba(255,255,255,.85)"/><circle cx="14" cy="12" r="2" fill="rgba(255,255,255,.4)"/></svg>
+    <div class="tb-title">Formação em Cardiologia <small>HC-UFPE · Gestão de Residência</small></div>
+    <div class="tb-space"></div>
+    <div class="tb-pill" onclick="abrirModal('m-turmas')"><div class="tb-dot"></div><span id="turma-label">Turma 2024–2025</span></div>
+    <div class="tb-user" id="tb-user"></div>
+    <div class="tb-logout" onclick="sair()">Sair</div>
+    <div id="tb-clock"></div>
+  </header>
+  <div class="shell">
+    <nav class="sidebar" id="sidebar">
+      <div class="sb-sec">
+        <div class="sb-lbl">Painel</div>
+        <button class="ni on" onclick="irPara('avisos',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Avisos<span class="nb w" id="nb-av">0</span>
+        </button>
+        <button class="ni" onclick="irPara('educacao',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Educação Continuada<span class="nb" id="nb-edu">0</span>
+        </button>
+        <button class="ni" onclick="irPara('agenda',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Agenda
+        </button>
+        <button class="ni" onclick="irPara('msgs',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Mensagens<span class="nb" id="nb-msg">0</span>
+        </button>
+      </div>
+      <div class="sb-sec" id="sb-form">
+        <div class="sb-lbl">Formandos</div>
+        <button class="ni" onclick="irPara('formandos',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Fichas<span class="nb" id="nb-fich">0</span>
+        </button>
+        <button class="ni" onclick="irPara('rodizios',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 3 21 8 16 13"/><path d="M21 8H9"/><path d="M8 21 3 16 8 11"/><path d="M3 16h12"/></svg>
+          Rodízios
+        </button>
+      </div>
+      <div class="sb-sec" id="sb-coord" style="display:none">
+        <div class="sb-lbl">Coordenação</div>
+        <button class="ni" onclick="irPara('painel',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Painel Pedagógico
+        </button>
+        <button class="ni" onclick="irPara('milestones',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+          Milestones
+        </button>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-lbl">Serviço</div>
+        <button class="ni" onclick="irPara('servico',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          Funcionamento
+        </button>
+      </div>
+      <div class="sb-foot">
+        <span class="perfil-tag badge b-gray" id="sb-tag">—</span><br/>
+        HC-UFPE · Cardiologia<br/>v3.0 · Dados em sessão
+      </div>
+    </nav>
+    <main class="main">
+      <div id="pg-avisos" class="page on"></div>
+      <div id="pg-educacao" class="page"></div>
+      <div id="pg-agenda" class="page"></div>
+      <div id="pg-msgs" class="page"></div>
+      <div id="pg-formandos" class="page"></div>
+      <div id="pg-rodizios" class="page"></div>
+      <div id="pg-painel" class="page"></div>
+      <div id="pg-milestones" class="page"></div>
+      <div id="pg-servico" class="page"></div>
+    </main>
+  </div>
+</div>
+
+<!-- MODAIS -->
+<div class="mo" id="m-aviso"><div class="modal">
+  <div class="modal-title" id="m-aviso-title">Novo Aviso</div>
+  <input type="hidden" id="av-cat" value="servico"/>
+  <div class="fr"><div class="fg full"><label class="fl">Título</label><input class="fi" id="av-titulo"/></div></div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Tipo</label><select class="fi" id="av-tipo"><option value="info">Informativo</option><option value="prazo">Prazo</option><option value="urgent">Urgente</option><option value="edu">Evento</option></select></div>
+    <div class="fg"><label class="fl">Data</label><input type="date" class="fi" id="av-data"/></div>
+  </div>
+  <div class="fr"><div class="fg full"><label class="fl">Descrição</label><textarea class="fi" id="av-desc"></textarea></div></div>
+  <div class="modal-foot"><button class="btn btn-s" onclick="fecharModal('m-aviso')">Cancelar</button><button class="btn btn-p" onclick="salvarAviso()">Publicar</button></div>
+</div></div>
+
+<div class="mo" id="m-formando"><div class="modal">
+  <div class="modal-title">Novo Formando</div>
+  <div class="fr"><div class="fg full"><label class="fl">Nome completo</label><input class="fi" id="nf-nome"/></div></div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Tipo</label><select class="fi" id="nf-tipo"><option>Residente</option><option>Especializando</option><option>Eco</option></select></div>
+    <div class="fg"><label class="fl">Ano</label><select class="fi" id="nf-ano"><option value="1">Ano 1</option><option value="2">Ano 2</option></select></div>
+  </div>
+  <div class="fr">
+    <div class="fg"><label class="fl">CRM</label><input class="fi" id="nf-crm" placeholder="PE-XXXXX"/></div>
+    <div class="fg"><label class="fl">Perfil</label><select class="fi" id="nf-perfil"><option>Assistencial-clínico</option><option>Acadêmico-pesquisa</option><option>Gestão/qualidade</option><option>Inovação/tecnologia</option><option>Empreendedor</option></select></div>
+  </div>
+  <div class="fr">
+    <div class="fg"><label class="fl">CPF</label><input class="fi" id="nf-cpf"/></div>
+    <div class="fg"><label class="fl">Telefone</label><input class="fi" id="nf-tel"/></div>
+  </div>
+  <div class="fr"><div class="fg full"><label class="fl">E-mail</label><input class="fi" id="nf-email" type="email"/></div></div>
+  <div class="fr"><div class="fg full"><label class="fl">Endereço</label><input class="fi" id="nf-end"/></div></div>
+  <div class="fr"><div class="fg full"><label class="fl">Turma</label><select class="fi" id="nf-turma"></select></div></div>
+  <div class="modal-foot"><button class="btn btn-s" onclick="fecharModal('m-formando')">Cancelar</button><button class="btn btn-p" onclick="salvarFormando()">Cadastrar</button></div>
+</div></div>
+
+<div class="mo" id="m-minicex"><div class="modal wide">
+  <div class="modal-title">Nova Avaliação Mini-CEX</div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Cenário</label><input class="fi" id="cx-cen" placeholder="Ex.: Plantão UTI"/></div>
+    <div class="fg"><label class="fl">Caso</label><input class="fi" id="cx-caso" placeholder="Ex.: IC descompensada"/></div>
+  </div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Competência</label><select class="fi" id="cx-comp"><option>ECG</option><option>Ecocardiografia</option><option>Dor torácica</option><option>Insuficiência cardíaca</option><option>Arritmias</option><option>Emergência cardiovascular</option><option>Comunicação</option><option>Liderança clínica</option><option>Profissionalismo</option></select></div>
+    <div class="fg"><label class="fl">Avaliador</label><input class="fi" id="cx-aval"/></div>
+  </div>
+  <div class="fr"><div class="fg full"><label class="fl">Pontos fortes</label><textarea class="fi" id="cx-forte" style="min-height:55px"></textarea></div></div>
+  <div class="fr"><div class="fg full"><label class="fl">Pontos a melhorar</label><textarea class="fi" id="cx-melhora" style="min-height:55px"></textarea></div></div>
+  <div class="fr"><div class="fg full"><label class="fl">Plano de ação</label><textarea class="fi" id="cx-plano" style="min-height:55px"></textarea></div></div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Nível EPA</label><select class="fi" id="cx-epa"><option value="1">1 — Observa</option><option value="2">2 — Sup. direta</option><option value="3">3 — Sup. indireta</option><option value="4">4 — Autonomia</option><option value="5">5 — Supervisiona</option></select></div>
+    <div class="fg"><label class="fl">Data</label><input type="date" class="fi" id="cx-data"/></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-s" onclick="fecharModal('m-minicex')">Cancelar</button><button class="btn btn-p" onclick="salvarCEX()">Salvar</button></div>
+</div></div>
+
+<div class="mo" id="m-pdi"><div class="modal wide">
+  <div class="modal-title">Novo Item de PDI</div>
+  <div class="fr"><div class="fg full"><label class="fl">Fragilidade identificada</label><input class="fi" id="pdi-frag"/></div></div>
+  <div class="fr"><div class="fg full"><label class="fl">Evidência</label><textarea class="fi" id="pdi-evid" style="min-height:50px"></textarea></div></div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Competência</label><select class="fi" id="pdi-comp"><option>ECG</option><option>Ecocardiografia</option><option>IC</option><option>Arritmias</option><option>Comunicação</option><option>Liderança</option><option>Profissionalismo</option><option>Outra</option></select></div>
+    <div class="fg"><label class="fl">Impacto</label><input class="fi" id="pdi-imp"/></div>
+  </div>
+  <div class="fr"><div class="fg full"><label class="fl">Intervenção proposta</label><textarea class="fi" id="pdi-int" style="min-height:50px"></textarea></div></div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Responsável</label><input class="fi" id="pdi-resp"/></div>
+    <div class="fg"><label class="fl">Prazo</label><input type="date" class="fi" id="pdi-prazo"/></div>
+    <div class="fg"><label class="fl">Status</label><select class="fi" id="pdi-status"><option value="pend">Pendente</option><option value="and">Em andamento</option><option value="ok">Concluído</option></select></div>
+  </div>
+  <div class="modal-foot"><button class="btn btn-s" onclick="fecharModal('m-pdi')">Cancelar</button><button class="btn btn-p" onclick="salvarPDI()">Salvar</button></div>
+</div></div>
+
+<div class="mo" id="m-ms"><div class="modal">
+  <div class="modal-title">Registrar Milestone</div>
+  <div class="fr"><div class="fg full"><label class="fl">Formando</label><select class="fi" id="ms-form"></select></div></div>
+  <div class="fr"><div class="fg full"><label class="fl">Competência</label><select class="fi" id="ms-comp"><option>ECG — Interpretação básica</option><option>ECG — Interpretação crítica</option><option>Ecocardiografia básica</option><option>Ecocardiografia avançada</option><option>Hemodinâmica</option><option>Insuficiência cardíaca</option><option>Arritmias</option><option>Emergência cardiovascular</option><option>Comunicação</option><option>Liderança clínica</option><option>Profissionalismo</option></select></div></div>
+  <div class="fr">
+    <div class="fg"><label class="fl">Nível atual</label><select class="fi" id="ms-atual"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>
+    <div class="fg"><label class="fl">Nível esperado</label><select class="fi" id="ms-esp"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+    <div class="fg"><label class="fl">Tendência</label><select class="fi" id="ms-tend"><option>↑ Progressiva</option><option>→ Estável</option><option>↓ Regressiva</option></select></div>
+  </div>
+  <div class="fr"><div class="fg full"><label class="fl">Observação</label><textarea class="fi" id="ms-obs"></textarea></div></div>
+  <div class="modal-foot"><button class="btn btn-s" onclick="fecharModal('m-ms')">Cancelar</button><button class="btn btn-p" onclick="salvarMS()">Salvar</button></div>
+</div></div>
+
+<div class="mo" id="m-contato"><div class="modal">
+  <div class="modal-title">Novo Contato</div>
+  <div class="fr"><div class="fg full"><label class="fl">Nome</label><input class="fi" id="ct-nome"/></div></div>
+  <div class="fr"><div class="fg"><label class="fl">Cargo</label><input class="fi" id="ct-cargo"/></div><div class="fg"><label class="fl">Telefone</label><input class="fi" id="ct-tel"/></div></div>
+  <div class="fr"><div class="fg full"><label class="fl">E-mail</label><input class="fi" id="ct-email" type="email"/></div></div>
+  <div class="modal-foot"><button class="btn btn-s" onclick="fecharModal('m-contato')">Cancelar</button><button class="btn btn-p" onclick="salvarContato()">Salvar</button></div>
+</div></div>
+
+<div class="mo" id="m-turmas"><div class="modal">
+  <div class="modal-title">Gerenciar Turmas</div>
+  <div id="turmas-lista" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
+  <div class="fr"><div class="fg"><label class="fl">Novo período</label><input class="fi" id="nova-turma" placeholder="Ex.: 2025–2026"/></div></div>
+  <div class="modal-foot"><button class="btn btn-s" onclick="fecharModal('m-turmas')">Fechar</button><button class="btn btn-p" onclick="addTurma()">Criar</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// DADOS — carregados só depois do login
+// ══════════════════════════════════════════════
+var PERFIL = null;
+var perfilSel = null;
+var nxId = 300;
+var D = null; // dados inicializados após login
+
+var SENHAS = {coordenador:'coord123', preceptor:'prec123', formando:'form123'};
+var MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var MESES_LABEL = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+var AREAS = [
+  {id:'assistencial', nome:'Assistencial-clínico',  cor:'#1A5FA8', bg:'#EBF3FB', icon:'🩺'},
+  {id:'academico',    nome:'Acadêmico-pesquisa',     cor:'#1A7A4A', bg:'#E8F6EE', icon:'📚'},
+  {id:'gestao',       nome:'Gestão / Qualidade',     cor:'#D4860A', bg:'#FEF5E7', icon:'🏛️'},
+  {id:'inovacao',     nome:'Inovação / Tecnologia',  cor:'#7B3FB5', bg:'#F0EDF9', icon:'💡'},
+  {id:'empreendedor', nome:'Empreendedor',            cor:'#C0392B', bg:'#FDECEA', icon:'🚀'}
+];
+var PERFIL_MAP = {
+  'Assistencial-clínico':'assistencial','Acadêmico-pesquisa':'academico',
+  'Gestão/qualidade':'gestao','Inovação/tecnologia':'inovacao','Empreendedor':'empreendedor'
+};
+var COMP_TEC = ['ECG básico','ECG crítico','Ecocardiografia básica','Ecocardiografia avançada','Teste Ergométrico','Hemodinâmica','Ressonância cardíaca','Tomografia cardíaca','Cintilografia','Marcapasso'];
+var COMP_CLI = ['Dor torácica aguda','IC aguda','IC crônica','Arritmias — diagnóstico','Arritmias — manejo','Emergência cardiovascular','Hipertensão arterial','SCA','Prevenção cardiovascular','Reabilitação cardíaca'];
+var COMP_COM = ['Comunicação paciente/família','Profissionalismo','Liderança clínica','Trabalho em equipe','Segurança do paciente','Apresentação de casos','Raciocínio clínico','Educação do paciente'];
+
+function initDados() {
+  D = {
+    turmas: ['2024–2025'],
+    turmaSel: '2024–2025',
+    avisos: [
+      {id:1,titulo:'Entrega — Notas Coreme (Ano 1)',tipo:'prazo',cat:'servico',data:'2025-05-28',desc:'Formandos do Ano 1 devem submeter as notas de avaliação médica.',turma:'2024–2025'},
+      {id:2,titulo:'Congresso SBC 2025',tipo:'edu',cat:'educacao',data:'2025-09-15',desc:'Salvador, BA. Solicitar liberação à coordenação.',turma:'2024–2025'},
+      {id:3,titulo:'Curso Online — ECG Avançado',tipo:'edu',cat:'educacao',data:'2025-06-10',desc:'Plataforma CardioEd — acesso gratuito para residentes HC-UFPE.',turma:'2024–2025'}
+    ],
+    formandos: [
+      mkF(1,'Ana Clara Mendonça','Residente',1,'PE-12345','000.000.001-01','(81) 99100-0001','anaclara@hosp.br','Rua das Flores, 10, Recife-PE','Acadêmico-pesquisa','Interesse em pesquisa clínica e publicações.',[{id:1,sem:'1º sem 2024',nota:8.5,status:'ok'}]),
+      mkF(2,'Bruno Tavares Lima','Residente',1,'PE-12346','000.000.002-02','(81) 99100-0002','bruno.t@hosp.br','Av. Boa Viagem, 200, Recife-PE','Assistencial-clínico','Foco em procedimentos e habilidades técnicas.',[{id:1,sem:'1º sem 2024',nota:9.0,status:'ok'}]),
+      mkF(3,'Camila Sousa Ferreira','Residente',1,'PE-12347','000.000.003-03','(81) 99100-0003','camila.sf@hosp.br','Rua Real da Torre, 300, Recife-PE','Gestão/qualidade','Vocação para liderança e organização de processos.',[{id:1,sem:'1º sem 2024',nota:8.0,status:'ok'}]),
+      mkF(4,'Daniel Neto Araújo','Residente',1,'PE-12348','000.000.004-04','(81) 99100-0004','daniel.n@hosp.br','Rua Augusta, 50, Recife-PE','Inovação/tecnologia','Interesse em tecnologia aplicada à cardiologia.',[{id:1,sem:'1º sem 2024',nota:7.5,status:'warn'}],true),
+      mkF(5,'Eduarda Melo Costa','Residente',1,'PE-12349','000.000.005-05','(81) 99100-0005','eduarda.m@hosp.br','Rua do Espinheiro, 80, Recife-PE','Acadêmico-pesquisa','Excelente desempenho acadêmico.',[{id:1,sem:'1º sem 2024',nota:9.5,status:'ok'}]),
+      mkF(6,'Felipe Ramos Vieira','Residente',1,'PE-12350','000.000.006-06','(81) 99100-0006','felipe.r@hosp.br','Av. Cruz Cabugá, 400, Recife-PE','Assistencial-clínico','Perfil clínico forte. IC avançada.',[{id:1,sem:'1º sem 2024',nota:8.2,status:'ok'}]),
+      mkF(7,'Gabriela Pires Lins','Residente',1,'PE-12351','000.000.007-07','(81) 99100-0007','gabriela.p@hosp.br','Rua Benfica, 150, Recife-PE','Gestão/qualidade','Lidera grupo de melhoria de processos.',[{id:1,sem:'1º sem 2024',nota:8.8,status:'ok'}]),
+      mkF(8,'Henrique Bastos Cunha','Residente',1,'PE-12352','000.000.008-08','(81) 99100-0008','henrique.b@hosp.br','Av. Agamenon, 600, Recife-PE','Empreendedor','Empreendedorismo em saúde. Aceleradora.',[{id:1,sem:'1º sem 2024',nota:7.8,status:'warn'}]),
+      mkF(9,'Isabela Torres Fonseca','Especializando',1,'PE-12353','000.000.009-09','(81) 99100-0009','isabela.t@hosp.br','Rua Padre Carapuceiro, 70, Recife-PE','Acadêmico-pesquisa','Pesquisadora entusiasta. Coautora 2025.',[{id:1,sem:'1º sem 2024',nota:9.1,status:'ok'}]),
+      mkF(10,'João Pedro Alves','Residente',2,'PE-11200','000.000.010-10','(81) 99200-0001','joaopedro@hosp.br','Rua da Aurora, 20, Recife-PE','Assistencial-clínico','Alta competência técnica. Hemodinâmica.',[{id:1,sem:'1º sem 2023',nota:9.0,status:'ok'},{id:2,sem:'2º sem 2023',nota:8.5,status:'ok'},{id:3,sem:'1º sem 2024',nota:8.8,status:'ok'}]),
+      mkF(11,'Karla Andrade Nunes','Residente',2,'PE-11201','000.000.011-11','(81) 99200-0002','karla.a@hosp.br','Av. Caxangá, 500, Recife-PE','Acadêmico-pesquisa','Melhor desempenho da turma. TCC sobre FA.',[{id:1,sem:'1º sem 2023',nota:9.5,status:'ok'},{id:2,sem:'2º sem 2023',nota:9.2,status:'ok'},{id:3,sem:'1º sem 2024',nota:9.6,status:'ok'}]),
+      mkF(12,'Lucas Carvalho Brito','Residente',2,'PE-11202','000.000.012-12','(81) 99200-0003','lucas.c@hosp.br','Rua Gervásio Pires, 30, Recife-PE','Gestão/qualidade','Projeto de reestruturação de fluxo de alta.',[{id:1,sem:'1º sem 2023',nota:8.3,status:'ok'},{id:2,sem:'2º sem 2023',nota:8.0,status:'ok'},{id:3,sem:'1º sem 2024',nota:8.6,status:'ok'}]),
+      mkF(13,'Mariana Lima Rocha','Residente',2,'PE-11203','000.000.013-13','(81) 99200-0004','mariana.lr@hosp.br','Rua Sete de Setembro, 90, Recife-PE','Inovação/tecnologia','Startup de telemedicina cardíaca.',[{id:1,sem:'1º sem 2023',nota:8.7,status:'ok'},{id:2,sem:'2º sem 2023',nota:8.4,status:'ok'},{id:3,sem:'1º sem 2024',nota:9.0,status:'ok'}]),
+      mkF(14,'Nicolas Queiroz Maia','Residente',2,'PE-11204','000.000.014-14','(81) 99200-0005','nicolas.q@hosp.br','Av. Recife, 700, Recife-PE','Assistencial-clínico','Forte atuação na enfermaria.',[{id:1,sem:'1º sem 2023',nota:8.1,status:'ok'},{id:2,sem:'2º sem 2023',nota:7.9,status:'warn'},{id:3,sem:'1º sem 2024',nota:8.4,status:'ok'}]),
+      mkF(15,'Olívia Santana Castro','Residente',2,'PE-11205','000.000.015-15','(81) 99200-0006','olivia.s@hosp.br','Rua Gervásio, 60, Recife-PE','Acadêmico-pesquisa','Imagem cardiovascular avançada.',[{id:1,sem:'1º sem 2023',nota:9.3,status:'ok'},{id:2,sem:'2º sem 2023',nota:9.0,status:'ok'},{id:3,sem:'1º sem 2024',nota:9.4,status:'ok'}]),
+      mkF(16,'Pedro Augusto Freitas','Especializando',2,'PE-11206','000.000.016-16','(81) 99200-0007','pedro.f@hosp.br','Av. Beberibe, 100, Recife-PE','Gestão/qualidade','Qualidade e segurança do paciente.',[{id:1,sem:'1º sem 2023',nota:8.5,status:'ok'},{id:2,sem:'2º sem 2023',nota:8.2,status:'ok'},{id:3,sem:'1º sem 2024',nota:8.7,status:'ok'}]),
+      mkF(17,'Raquel Monteiro Dias','Residente',2,'PE-11207','000.000.017-17','(81) 99200-0008','raquel.m@hosp.br','Rua Pernambuco, 250, Recife-PE','Empreendedor','Plataforma de educação em cardiologia.',[{id:1,sem:'1º sem 2023',nota:8.0,status:'ok'},{id:2,sem:'2º sem 2023',nota:8.3,status:'ok'},{id:3,sem:'1º sem 2024',nota:8.6,status:'ok'}]),
+      mkF(18,'Sérgio Vieira Barros','Residente',2,'PE-11208','000.000.018-18','(81) 99200-0009','sergio.v@hosp.br','Rua Visconde de Goiana, 180, Recife-PE','Assistencial-clínico','Reabilitação cardíaca e prevenção.',[{id:1,sem:'1º sem 2023',nota:9.2,status:'ok'},{id:2,sem:'2º sem 2023',nota:9.0,status:'ok'},{id:3,sem:'1º sem 2024',nota:9.3,status:'ok'}]),
+      mkF(19,'Fernanda Lacerda','Eco',1,'PE-20001','000.000.019-01','(81) 99300-0001','fernanda.eco@hosp.br','Rua Nova, 10, Recife-PE','Assistencial-clínico','Residente de Eco R1.',[{id:1,sem:'1º sem 2024',nota:9.0,status:'ok'}])
+    ],
+    milestones: [],
+    contatos: [
+      {id:1,nome:'Prof. Dr. Carlos Alberto',cargo:'Coordenador',tel:'(81) 3123-0001',email:'coord@hcufpe.br'},
+      {id:2,nome:'Dra. Fernanda Bezerra',cargo:'Preceptora',tel:'(81) 3123-0002',email:'preceptoria@hcufpe.br'}
+    ],
+    msgs: [{id:1,de:'Coordenação',para:'geral',texto:'Bem-vindos ao sistema de gestão da Formação em Cardiologia HC-UFPE.',urgente:false,data:new Date().toISOString()}]
+  };
+}
+
+function mkRod() {
+  var r = {};
+  MESES.forEach(function(m) { r[m] = ''; });
+  r.ext = '—';
+  return r;
+}
+function mkMetas() {
+  var m = {};
+  AREAS.forEach(function(a) { m[a.id] = {ano1:'',ano2:'',link:''}; });
+  return m;
+}
+function mkF(id,nome,tipo,ano,crm,cpf,tel,email,end,perfil,desc,notas,temPdi) {
+  var f = {
+    id:id,nome:nome,tipo:tipo,ano:ano,crm:crm,cpf:cpf,tel:tel,email:email,end:end,
+    perfil:perfil,perfil_desc:desc,notas:notas||[],minicex:[],pdi:[],
+    competencias:{tec:{},cli:{},com:{}},
+    rodizio:mkRod(),metas:mkMetas(),
+    portfolio:{tcc:'',gestao:'',inovacao:'',negocio:'',link_tcc:'',link_gestao:'',link_inov:'',link_neg:''},
+    turma:'2024–2025',arquivado:false
+  };
+  if(temPdi) {
+    f.pdi = [{id:99,fragilidade:'Nota abaixo de 8.0',evidencia:'Coreme 7.5',comp:'ECG',impacto:'Risco de aprovação',intervencao:'Tutoria semanal de ECG',responsavel:'Dr. Rodrigues',prazo:'2025-06-30',status:'and'}];
+  }
+  // Rodízio exemplo
+  var rots = ['Enfermaria','Amb. Geral','Hemodinâmica','Ecocardiograma','UTI Cardio','Urgência','Amb. IC','Amb. HAS','Cintilografia','TC Cardíaca','Ressonância','Amb. Arritmia'];
+  MESES.forEach(function(m,i) { f.rodizio[m] = rots[(id+i)%rots.length]; });
+  return f;
+}
+
+// ══════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function ini(n) { return (n||'').split(' ').filter(Boolean).slice(0,2).map(function(x){return x[0].toUpperCase();}).join(''); }
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  setTimeout(function(){t.classList.remove('on');}, 2200);
+}
+function clock() {
+  var d = new Date();
+  var el = document.getElementById('tb-clock');
+  if(el) el.textContent = d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'short'}) + ' · ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+
+// ══════════════════════════════════════════════
+// MODAIS
+// ══════════════════════════════════════════════
+function abrirModal(id) {
+  if(id==='m-turmas') renderTurmasList();
+  if(id==='m-formando') { var sel=document.getElementById('nf-turma'); sel.innerHTML=''; D.turmas.forEach(function(t){var o=document.createElement('option');o.value=t;o.textContent=t;if(t===D.turmaSel)o.selected=true;sel.appendChild(o);}); }
+  if(id==='m-ms') { var sel=document.getElementById('ms-form'); sel.innerHTML=''; D.formandos.filter(function(f){return f.turma===D.turmaSel&&!f.arquivado;}).forEach(function(f){var o=document.createElement('option');o.value=f.id;o.textContent=f.nome;sel.appendChild(o);}); }
+  document.getElementById(id).classList.add('on');
+}
+function fecharModal(id) { document.getElementById(id).classList.remove('on'); }
+document.querySelectorAll('.mo').forEach(function(m) {
+  m.addEventListener('click', function(e){if(e.target===m)m.classList.remove('on');});
+});
+
+// ══════════════════════════════════════════════
+// LOGIN
+// ══════════════════════════════════════════════
+function selecionarPerfil(p) {
+  perfilSel = p;
+  document.querySelectorAll('.pb').forEach(function(b){b.classList.remove('sel');});
+  var mapa = {coordenador:'pb-coord',preceptor:'pb-prec',formando:'pb-form'};
+  document.getElementById(mapa[p]).classList.add('sel');
+  document.getElementById('lerr').textContent = '';
+}
+
+function entrar() {
+  var err = document.getElementById('lerr');
+  err.textContent = '';
+  if(!perfilSel) { err.textContent = 'Selecione um perfil.'; return; }
+  if(!document.getElementById('lgpd').checked) { err.textContent = 'Aceite os termos LGPD.'; return; }
+  var s = document.getElementById('senha').value.trim();
+  if(s !== SENHAS[perfilSel]) { err.textContent = 'Senha incorreta. Use: ' + SENHAS[perfilSel]; return; }
+  PERFIL = perfilSel;
+  initDados();
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.add('on');
+  configurarUI();
+  renderizarTudo();
+}
+
+function sair() {
+  PERFIL = null; perfilSel = null; D = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('senha').value = '';
+  document.getElementById('lgpd').checked = false;
+  document.getElementById('lerr').textContent = '';
+  document.querySelectorAll('.pb').forEach(function(b){b.classList.remove('sel');});
+}
+
+function configurarUI() {
+  var isCoord = PERFIL==='coordenador';
+  var isPrec  = PERFIL==='preceptor';
+  var isForm  = PERFIL==='formando';
+  document.getElementById('sb-coord').style.display = (isCoord||isPrec) ? 'block' : 'none';
+  var nomes = {coordenador:'Coordenador',preceptor:'Supervisor/Preceptor',formando:'Formando'};
+  var cores = {coordenador:'b-blue',preceptor:'b-green',formando:'b-amber'};
+  document.getElementById('sb-tag').className = 'perfil-tag badge ' + cores[PERFIL];
+  document.getElementById('sb-tag').textContent = nomes[PERFIL];
+  document.getElementById('tb-user').textContent = nomes[PERFIL];
+  document.getElementById('turma-label').textContent = 'Turma ' + D.turmaSel;
+}
+
+// ══════════════════════════════════════════════
+// NAVEGAÇÃO
+// ══════════════════════════════════════════════
+var fichaAberta = null;
+var filtroAtual = 'todos';
+
+function irPara(id, btn) {
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.ni').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('pg-'+id).classList.add('on');
+  if(btn) btn.classList.add('on');
+  var renders = {
+    avisos:renderAvisos, educacao:renderEducacao, agenda:renderAgenda,
+    msgs:renderMsgs, formandos:renderFormandos, rodizios:renderRodizios,
+    painel:renderPainel, milestones:renderMilestones, servico:renderServico
+  };
+  if(renders[id]) renders[id]();
+}
+
+function renderizarTudo() {
+  renderAvisos();
+  renderFormandos();
+  renderRodizios();
+  renderServico();
+  clock();
+  setInterval(clock, 30000);
+}
+
+// ══════════════════════════════════════════════
+// TURMAS
+// ══════════════════════════════════════════════
+function renderTurmasList() {
+  var div = document.getElementById('turmas-lista');
+  div.innerHTML = '';
+  D.turmas.forEach(function(t) {
+    var d = document.createElement('div');
+    d.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 11px;border:1px solid var(--g200);border-radius:var(--rsm);cursor:pointer;font-size:.83rem;' + (t===D.turmaSel?'border-color:var(--cobalt);background:var(--sky);font-weight:500':'');
+    d.innerHTML = '<span>' + esc(t) + '</span><span style="font-size:.72rem;color:var(--muted)">' + D.formandos.filter(function(f){return f.turma===t;}).length + ' formandos</span>';
+    d.onclick = function(){selTurma(t);};
+    div.appendChild(d);
+  });
+}
+function selTurma(t) { D.turmaSel=t; document.getElementById('turma-label').textContent='Turma '+t; fecharModal('m-turmas'); renderAvisos(); renderFormandos(); }
+function addTurma() { var n=document.getElementById('nova-turma').value.trim(); if(!n)return; if(!D.turmas.includes(n))D.turmas.push(n); selTurma(n); document.getElementById('nova-turma').value=''; }
+
+// ══════════════════════════════════════════════
+// AVISOS
+// ══════════════════════════════════════════════
+var canEdit = function(){ return PERFIL==='coordenador'||PERFIL==='preceptor'; };
+
+function openModalAviso(cat) {
+  document.getElementById('av-cat').value = cat;
+  document.getElementById('m-aviso-title').textContent = cat==='educacao' ? 'Novo Evento Educacional' : 'Novo Aviso';
+  abrirModal('m-aviso');
+}
+
+function renderAvisos() {
+  var lista = D.avisos.filter(function(a){return a.cat==='servico'&&a.turma===D.turmaSel;});
+  var todos = D.formandos.filter(function(f){return f.turma===D.turmaSel&&!f.arquivado;});
+  document.getElementById('nb-av').textContent = lista.filter(function(a){return a.tipo==='urgent';}).length || lista.length;
+  document.getElementById('nb-fich').textContent = todos.length;
+  var html = '<div class="ph"><div><div class="ph-title">Avisos do Serviço</div><div class="ph-sub">Comunicados operacionais e Coreme</div></div>';
+  if(canEdit()) html += '<button class="btn btn-p" onclick="openModalAviso(\'servico\')">+ Novo aviso</button>';
+  html += '</div>';
+  html += '<div class="metrics">';
+  html += '<div class="mc acc"><div class="mc-lbl">Formandos</div><div class="mc-val">'+todos.length+'</div><div class="mc-sub">Turma '+D.turmaSel+'</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">Residentes</div><div class="mc-val">'+todos.filter(function(f){return f.tipo==='Residente';}).length+'</div><div class="mc-sub">Ano 1: '+todos.filter(function(f){return f.tipo==='Residente'&&f.ano===1;}).length+' · Ano 2: '+todos.filter(function(f){return f.tipo==='Residente'&&f.ano===2;}).length+'</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">Especializandos</div><div class="mc-val">'+todos.filter(function(f){return f.tipo==='Especializando';}).length+'</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">Residentes Eco</div><div class="mc-val">'+todos.filter(function(f){return f.tipo==='Eco';}).length+'</div><div class="mc-sub">Máx. 4/turma</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">Avisos</div><div class="mc-val">'+lista.length+'</div></div>';
+  html += '</div>';
+  if(lista.length) {
+    lista.forEach(function(a){ html += noticeTpl(a); });
+  } else {
+    html += '<div class="empty"><div class="empty-icon">🔔</div><p>Nenhum aviso.</p></div>';
+  }
+  document.getElementById('pg-avisos').innerHTML = html;
+}
+
+function renderEducacao() {
+  var lista = D.avisos.filter(function(a){return a.cat==='educacao'&&a.turma===D.turmaSel;});
+  document.getElementById('nb-edu').textContent = lista.length;
+  var html = '<div class="ph"><div><div class="ph-title">Educação Continuada</div><div class="ph-sub">Aulas, cursos, congressos e simpósios</div></div>';
+  if(canEdit()) html += '<button class="btn btn-p" onclick="openModalAviso(\'educacao\')">+ Novo evento</button>';
+  html += '</div>';
+  if(lista.length) {
+    lista.forEach(function(a){ html += noticeTpl(a); });
+  } else {
+    html += '<div class="empty"><div class="empty-icon">📚</div><p>Nenhum evento cadastrado.</p></div>';
+  }
+  document.getElementById('pg-educacao').innerHTML = html;
+}
+
+function noticeTpl(a) {
+  var cfg = {urgent:{cls:'urgent',lbl:'Urgente',cor:'var(--red)'},info:{cls:'info',lbl:'Info',cor:'var(--cobalt)'},prazo:{cls:'prazo',lbl:'Prazo',cor:'var(--amber)'},edu:{cls:'edu',lbl:'Evento',cor:'var(--green)'}};
+  var c = cfg[a.tipo]||cfg.info;
+  var df = a.data ? new Date(a.data+'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'}) : '';
+  var delBtn = canEdit() ? '<button class="ndel" onclick="delAviso('+a.id+')">Remover</button>' : '';
+  return '<div class="notice '+c.cls+'"><div style="width:14px;height:14px;border-radius:50%;background:'+c.cor+';opacity:.8;flex-shrink:0;margin-top:2px"></div><div style="flex:1;min-width:0"><div class="notice-title">'+esc(a.titulo)+'</div><div class="notice-desc">'+esc(a.desc)+'</div><div class="notice-footer"><span class="badge b-gray" style="font-size:.65rem">'+c.lbl+'</span>'+(df?'<span class="notice-date">'+df+'</span>':'')+delBtn+'</div></div></div>';
+}
+
+function salvarAviso() {
+  var t = document.getElementById('av-titulo').value.trim();
+  if(!t) return;
+  D.avisos.push({id:++nxId,titulo:t,tipo:document.getElementById('av-tipo').value,cat:document.getElementById('av-cat').value,data:document.getElementById('av-data').value,desc:document.getElementById('av-desc').value.trim(),turma:D.turmaSel});
+  fecharModal('m-aviso');
+  ['av-titulo','av-desc','av-data'].forEach(function(i){document.getElementById(i).value='';});
+  renderAvisos(); renderEducacao(); toast('Aviso publicado.');
+}
+function delAviso(id) { D.avisos=D.avisos.filter(function(a){return a.id!==id;}); renderAvisos(); renderEducacao(); }
+
+// ══════════════════════════════════════════════
+// AGENDA
+// ══════════════════════════════════════════════
+function renderAgenda() {
+  var html = '<div class="ph"><div><div class="ph-title">Agenda do Serviço</div><div class="ph-sub">Horários fixos — use para planejar seu rodízio</div></div></div>';
+  html += '<div class="card" style="margin-bottom:10px"><div style="display:flex;align-items:center;justify-content:space-between"><div class="card-title" style="margin-bottom:0">Reunião Geral Semanal</div><span class="badge b-red">Toda sexta · 08h00</span></div><div style="font-size:.79rem;color:var(--muted);margin-top:4px">Sala de Reuniões — Bloco C, 2º andar</div></div>';
+  html += '<div class="card"><div style="overflow-x:auto"><table class="sched"><thead><tr><th>Dia</th><th>Período</th><th>Atividades</th><th>Local</th></tr></thead><tbody>';
+  var dias = [
+    ['Segunda','<span class="pill p-blue">Manhã</span><span class="pill p-teal">Tarde</span>','<span class="pill p-blue">Amb. Geral</span><span class="pill p-teal">Ecocardiograma</span><span class="pill p-gray">Enfermaria</span>','Amb. 3 / Eco Lab / 5º andar'],
+    ['Terça','<span class="pill p-blue">Manhã</span><span class="pill p-teal">Tarde</span>','<span class="pill p-purple">Cineangiocoronariografia</span><span class="pill p-blue">Amb. HAS</span><span class="pill p-gray">Enfermaria</span>','Hemodinâmica / Amb. 5 / 5º'],
+    ['Quarta','<span class="pill p-blue">Manhã</span><span class="pill p-teal">Tarde</span>','<span class="pill p-amber">Teste Ergométrico</span><span class="pill p-navy">Ressonância</span><span class="pill p-blue">Amb. IC</span>','Lab. Ergo / RM Bloco B / Amb. 2'],
+    ['Quinta','<span class="pill p-blue">Manhã</span><span class="pill p-teal">Tarde</span>','<span class="pill p-purple">Cintilografia</span><span class="pill p-navy">Tomografia</span><span class="pill p-blue">Amb. Arritmia</span>','MN / TC Bloco B / Amb. 4'],
+    ['Sexta','<span class="pill p-red">08h Reunião</span><span class="pill p-teal">Tarde</span>','<span class="pill p-red">⬤ Reunião Geral</span><span class="pill p-teal">Ecocardiograma</span><span class="pill p-gray">Enfermaria</span>','Sala Reuniões / Eco Lab / 5º'],
+    ['Sábado','<span class="pill p-gray">Plantão</span>','<span class="pill p-gray">Plantão — escala individual</span>','Conforme escala']
+  ];
+  dias.forEach(function(d,i) { html += '<tr'+(i===4?' class="today"':'')+'><td><strong>'+d[0]+'</strong></td><td>'+d[1]+'</td><td>'+d[2]+'</td><td style="font-size:.74rem;color:var(--muted)">'+d[3]+'</td></tr>'; });
+  html += '</tbody></table></div></div>';
+  document.getElementById('pg-agenda').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════
+// MENSAGENS
+// ══════════════════════════════════════════════
+var threadAtual = 'geral';
+function renderMsgs() {
+  document.getElementById('nb-msg').textContent = D.msgs.filter(function(m){return m.urgente;}).length || D.msgs.length;
+  var html = '<div class="ph"><div><div class="ph-title">Mensagens</div><div class="ph-sub">Comunicação interna</div></div></div>';
+  html += '<div style="display:grid;grid-template-columns:200px 1fr;gap:12px;min-height:380px">';
+  html += '<div class="card" style="margin-bottom:0;padding:11px"><div class="sl" style="margin-bottom:8px">Conversas</div>';
+  var threads = ['geral'];
+  D.formandos.filter(function(f){return f.turma===D.turmaSel&&!f.arquivado;}).slice(0,6).forEach(function(f){threads.push(String(f.id));});
+  threads.forEach(function(t) {
+    var lbl = t==='geral' ? '📢 Geral' : esc(D.formandos.find(function(f){return f.id==t;})||{nome:t}).nome||t;
+    var fn = D.formandos.find(function(f){return f.id==t;});
+    html += '<div style="padding:7px 9px;border-radius:var(--rsm);cursor:pointer;font-size:.81rem;'+(t===threadAtual?'background:var(--sky);color:var(--cobalt);font-weight:500':'')+'" onclick="abrirThread(\''+t+'\')">'+lbl+'</div>';
+  });
+  html += '</div>';
+  html += '<div class="card" style="margin-bottom:0;display:flex;flex-direction:column" id="msg-main">';
+  html += renderThreadHTML();
+  html += '</div></div>';
+  document.getElementById('pg-msgs').innerHTML = html;
+}
+function abrirThread(t) { threadAtual=t; renderMsgs(); }
+function renderThreadHTML() {
+  var msgs = D.msgs.filter(function(m){return m.para===threadAtual||m.de===threadAtual;});
+  var nomes = {coordenador:'Coordenação',preceptor:'Preceptoria',formando:'Formando'};
+  var html = '<div style="font-size:.86rem;font-weight:600;color:var(--navy);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--g100)">'+(threadAtual==='geral'?'📢 Mensagens gerais':'Chat individual')+'</div>';
+  html += '<div style="flex:1;overflow-y:auto;max-height:280px;display:flex;flex-direction:column;gap:8px;min-height:80px">';
+  msgs.forEach(function(m) {
+    var sent = m.de===nomes[PERFIL];
+    html += '<div style="display:flex;'+(sent?'justify-content:flex-end':'')+'"><div class="msg-bubble '+(sent?'sent':'recv')+'"><div class="msg-from">'+esc(m.de)+(m.urgente?' 🚨':'')+'</div>'+esc(m.texto)+'<div class="msg-time">'+new Date(m.data).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</div></div></div>';
+  });
+  if(!msgs.length) html += '<div style="font-size:.8rem;color:var(--muted);padding:12px">Nenhuma mensagem.</div>';
+  html += '</div>';
+  html += '<div style="border-top:1px solid var(--g100);padding-top:10px;margin-top:10px;display:flex;gap:7px">';
+  html += '<textarea class="fi" id="msg-txt" style="min-height:44px;flex:1" placeholder="Mensagem..."></textarea>';
+  html += '<div style="display:flex;flex-direction:column;gap:5px"><button class="btn btn-p btn-sm" onclick="enviarMsg(false)">Enviar</button><button class="btn btn-d btn-sm" onclick="enviarMsg(true)" title="Urgente">🚨</button></div>';
+  html += '</div>';
+  return html;
+}
+function enviarMsg(urg) {
+  var txt = document.getElementById('msg-txt').value.trim();
+  if(!txt) return;
+  var nomes = {coordenador:'Coordenação',preceptor:'Preceptoria',formando:'Formando'};
+  D.msgs.push({id:++nxId,de:nomes[PERFIL],para:threadAtual,texto:txt,urgente:urg,data:new Date().toISOString()});
+  renderMsgs();
+}
+
+// ══════════════════════════════════════════════
+// FORMANDOS
+// ══════════════════════════════════════════════
+function renderFormandos() {
+  if(fichaAberta) { renderFicha(fichaAberta); return; }
+  var q = '';
+  var lista = D.formandos.filter(function(f){return f.turma===D.turmaSel;});
+  if(filtroAtual==='Residente') lista=lista.filter(function(f){return f.tipo==='Residente';});
+  else if(filtroAtual==='Especializando') lista=lista.filter(function(f){return f.tipo==='Especializando';});
+  else if(filtroAtual==='Eco') lista=lista.filter(function(f){return f.tipo==='Eco';});
+  else if(filtroAtual==='1') lista=lista.filter(function(f){return f.ano===1;});
+  else if(filtroAtual==='2') lista=lista.filter(function(f){return f.ano===2;});
+  var grupos = [
+    {lbl:'Residentes — Ano 1',items:lista.filter(function(f){return f.tipo==='Residente'&&f.ano===1&&!f.arquivado;})},
+    {lbl:'Residentes — Ano 2',items:lista.filter(function(f){return f.tipo==='Residente'&&f.ano===2&&!f.arquivado;})},
+    {lbl:'Especializandos — Ano 1',items:lista.filter(function(f){return f.tipo==='Especializando'&&f.ano===1&&!f.arquivado;})},
+    {lbl:'Especializandos — Ano 2',items:lista.filter(function(f){return f.tipo==='Especializando'&&f.ano===2&&!f.arquivado;})},
+    {lbl:'Residentes de Ecocardiografia',items:lista.filter(function(f){return f.tipo==='Eco'&&!f.arquivado;})},
+    {lbl:'Arquivados',items:lista.filter(function(f){return f.arquivado;})}
+  ].filter(function(g){return g.items.length>0;});
+  var html = '<div class="ph"><div><div class="ph-title">Fichas dos Formandos</div><div class="ph-sub">Clique para abrir a ficha individual</div></div>';
+  if(PERFIL==='coordenador') html += '<button class="btn btn-p" onclick="abrirModal(\'m-formando\')">+ Novo formando</button>';
+  html += '</div><div class="toolbar">';
+  ['todos','Residente','Especializando','Eco','1','2'].forEach(function(f) {
+    var lbl = f==='todos'?'Todos':f==='1'?'Ano 1':f==='2'?'Ano 2':f;
+    html += '<button class="fb'+(filtroAtual===f?' on':'')+'" onclick="setFiltro(\''+f+'\')">'+lbl+'</button>';
+  });
+  html += '</div>';
+  if(!grupos.length) { html+='<div class="empty"><div class="empty-icon">👥</div><p>Nenhum formando encontrado.</p></div>'; document.getElementById('pg-formandos').innerHTML=html; return; }
+  grupos.forEach(function(g) {
+    html += '<div style="margin-bottom:18px"><div class="grp-lbl">'+g.lbl+' <span style="font-weight:400;color:var(--light)">'+g.items.length+'</span>';
+    if(g.lbl.includes('Eco')) html += ' <span style="background:#E0F4F1;color:#0F6B60;font-size:.66rem;font-weight:700;padding:2px 6px;border-radius:999px;border:1px solid #A0D8D0">Máx. 4/turma</span>';
+    html += '</div><div class="fa-grid">';
+    g.items.forEach(function(f) {
+      var avc = f.tipo==='Eco'?'av-eco':f.tipo==='Residente'?'av-r':'av-e';
+      var warn = f.notas.some(function(n){return n.status==='warn';});
+      var hasPdi = f.pdi&&f.pdi.length>0;
+      html += '<div class="fa-card" onclick="abrirFicha('+f.id+')">';
+      html += '<div class="fa-av '+avc+'">'+ini(f.nome)+'</div>';
+      html += '<div class="fa-name">'+esc(f.nome)+'</div>';
+      html += '<div class="fa-meta">'+f.tipo+' · Ano '+f.ano+'</div>';
+      html += '<div class="fa-meta">'+f.crm+'</div>';
+      html += '<div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:6px">';
+      html += '<span class="badge '+(f.tipo==='Residente'?'b-blue':f.tipo==='Eco'?'b-teal':'b-amber')+'" style="font-size:.64rem">'+(f.tipo==='Residente'?'R':f.tipo==='Eco'?'Eco':'E')+f.ano+'</span>';
+      html += '<span class="badge b-gray" style="font-size:.64rem">'+f.perfil+'</span>';
+      if(warn) html += '<span class="badge b-red" style="font-size:.64rem">⚠ Nota</span>';
+      if(hasPdi) html += '<span class="badge b-amber" style="font-size:.64rem">PDI</span>';
+      html += '</div></div>';
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('pg-formandos').innerHTML = html;
+}
+
+function setFiltro(f) { filtroAtual=f; renderFormandos(); }
+function abrirFicha(id) { fichaAberta=id; renderFormandos(); }
+function fecharFicha() { fichaAberta=null; renderFormandos(); }
+
+// ──────────────────────────────────────────────
+// FICHA INDIVIDUAL
+// ──────────────────────────────────────────────
+function renderFicha(id) {
+  var f = D.formandos.find(function(x){return x.id===id;});
+  if(!f) return;
+  var isEdit = canEdit();
+  var avc = f.tipo==='Eco'?'av-eco':f.tipo==='Residente'?'av-r':'av-e';
+  var pCores = {'Assistencial-clínico':'#1A5FA8','Acadêmico-pesquisa':'#1A7A4A','Gestão/qualidade':'#D4860A','Inovação/tecnologia':'#7B3FB5','Empreendedor':'#C0392B'};
+  var cor = pCores[f.perfil]||'#6B7489';
+  var html = '';
+  html += '<div class="breadcrumb" onclick="fecharFicha()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg> Formandos / <span>'+esc(f.nome)+'</span></div>';
+  html += '<div class="fh">';
+  html += '<div class="fh-av '+avc+'">'+ini(f.nome)+'</div>';
+  html += '<div class="fh-info"><div class="fh-name">'+esc(f.nome)+'</div>';
+  html += '<div class="fh-meta"><span class="badge '+(f.tipo==='Residente'?'b-blue':f.tipo==='Eco'?'b-teal':'b-amber')+'">'+f.tipo+' · Ano '+f.ano+'</span>';
+  html += '<span class="badge b-gray">'+f.crm+'</span>';
+  html += '<span class="badge" style="background:'+cor+'18;color:'+cor+'">'+f.perfil+'</span>';
+  if(f.arquivado) html += '<span class="badge b-gray">Arquivado</span>';
+  html += '</div></div>';
+  html += '<div class="fh-actions">';
+  html += '<button class="btn btn-g btn-sm" onclick="exportarPDF('+f.id+')">⬇ PDF Coreme</button>';
+  if(isEdit&&!f.arquivado) html += '<button class="btn btn-s btn-sm" onclick="arquivarF('+f.id+')">Arquivar</button>';
+  if(isEdit&&f.arquivado) html += '<button class="btn btn-s btn-sm" onclick="desarquivarF('+f.id+')">Reativar</button>';
+  if(PERFIL==='coordenador') html += '<button class="btn btn-d btn-sm" onclick="deletarF('+f.id+')">Excluir</button>';
+  html += '</div></div>';
+
+  // TABS
+  html += '<div class="tabs-bar">';
+  var tabs = ['dados','perfil','comp','aval','rodizio','portfolio'];
+  var tabsLbl = ['Dados pessoais','Perfil e metas','Competências','Avaliações','Rodízio mensal','Portfólio'];
+  tabs.forEach(function(t,i){ html += '<button class="tab-btn'+(i===0?' on':'')+'" id="tb-'+t+'" onclick="swTab(\''+t+'\')">'+tabsLbl[i]+'</button>'; });
+  html += '</div>';
+  tabs.forEach(function(t,i) { html += '<div class="tp'+(i===0?' on':'')+'" id="tp-'+t+'">'+renderTab(f,t,isEdit)+'</div>'; });
+  document.getElementById('pg-formandos').innerHTML = html;
+}
+
+function swTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('on');});
+  document.querySelectorAll('.tp').forEach(function(p){p.classList.remove('on');});
+  var tb = document.getElementById('tb-'+id);
+  var tp = document.getElementById('tp-'+id);
+  if(tb) tb.classList.add('on');
+  if(tp) tp.classList.add('on');
+}
+
+function renderTab(f, tab, isEdit) {
+  var ro = isEdit ? '' : 'readonly';
+  var dis = isEdit ? '' : 'disabled';
+  if(tab==='dados') {
+    return '<div class="card">' +
+      '<div class="fr"><div class="fg"><label class="fl">Nome</label><input class="fi" value="'+esc(f.nome)+'" '+ro+' onchange="updF('+f.id+',\'nome\',this.value)"/></div><div class="fg"><label class="fl">CPF</label><input class="fi" value="'+esc(f.cpf)+'" '+ro+' onchange="updF('+f.id+',\'cpf\',this.value)"/></div></div>' +
+      '<div class="fr"><div class="fg"><label class="fl">CRM</label><input class="fi" value="'+esc(f.crm)+'" '+ro+' onchange="updF('+f.id+',\'crm\',this.value)"/></div><div class="fg"><label class="fl">Telefone</label><input class="fi" value="'+esc(f.tel)+'" onchange="updF('+f.id+',\'tel\',this.value)"/></div><div class="fg"><label class="fl">E-mail</label><input class="fi" type="email" value="'+esc(f.email)+'" onchange="updF('+f.id+',\'email\',this.value)"/></div></div>' +
+      '<div class="fr"><div class="fg full"><label class="fl">Endereço</label><input class="fi" value="'+esc(f.end)+'" onchange="updF('+f.id+',\'end\',this.value)"/></div></div>' +
+      '<div class="fr"><div class="fg"><label class="fl">Tipo</label><select class="fi" '+dis+' onchange="updF('+f.id+',\'tipo\',this.value)"><option'+(f.tipo==='Residente'?' selected':'')+'>Residente</option><option'+(f.tipo==='Especializando'?' selected':'')+'>Especializando</option><option'+(f.tipo==='Eco'?' selected':'')+'>Eco</option></select></div><div class="fg"><label class="fl">Ano</label><select class="fi" '+dis+' onchange="updF('+f.id+',\'ano\',parseInt(this.value))"><option value="1"'+(f.ano===1?' selected':'')+'>Ano 1</option><option value="2"'+(f.ano===2?' selected':'')+'>Ano 2</option></select></div></div>' +
+      (isEdit?'<button class="btn btn-p" onclick="toast(\'Dados salvos.\')">Salvar</button>':'') + '</div>';
+  }
+  if(tab==='perfil') {
+    var html = '<div class="card" style="margin-bottom:12px">';
+    html += '<div class="fr"><div class="fg"><label class="fl">Perfil de interesse</label><select class="fi" '+dis+' onchange="updF('+f.id+',\'perfil\',this.value)">';
+    ['Assistencial-clínico','Acadêmico-pesquisa','Gestão/qualidade','Inovação/tecnologia','Empreendedor'].forEach(function(p){ html+='<option'+(f.perfil===p?' selected':'')+'>'+p+'</option>'; });
+    html += '</select></div></div>';
+    html += '<div class="fr"><div class="fg full"><label class="fl">Descrição do perfil</label><textarea class="fi" '+ro+' onblur="updF('+f.id+',\'perfil_desc\',this.value)">'+esc(f.perfil_desc)+'</textarea></div></div>';
+    if(isEdit) html += '<button class="btn btn-p" onclick="toast(\'Perfil salvo.\')">Salvar perfil</button>';
+    html += '</div>';
+    // Metas por área
+    html += '<div class="sl" style="margin-bottom:10px">Metas de desenvolvimento por área</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:16px">';
+    var principalId = PERFIL_MAP[f.perfil]||'';
+    if(!f.metas) f.metas = mkMetas();
+    AREAS.forEach(function(area) {
+      var isPrincipal = area.id===principalId;
+      var m = f.metas[area.id]||{ano1:'',ano2:'',link:''};
+      var border = isPrincipal ? area.cor : 'var(--g200)';
+      var bg = isPrincipal ? area.bg : 'var(--white)';
+      html += '<div style="border:1px solid '+border+';border-radius:var(--r);padding:14px;background:'+bg+'">';
+      html += '<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">';
+      html += '<div style="width:28px;height:28px;border-radius:7px;background:'+area.bg+';display:flex;align-items:center;justify-content:center;font-size:.85rem">'+area.icon+'</div>';
+      html += '<div style="font-size:.86rem;font-weight:600;color:'+area.cor+'">'+area.nome+'</div>';
+      if(isPrincipal) html += '<span style="margin-left:auto;font-size:.62rem;font-weight:700;background:'+area.cor+';color:white;padding:2px 6px;border-radius:999px;text-transform:uppercase">Principal</span>';
+      html += '</div>';
+      html += '<label class="fl" style="margin-bottom:3px">Meta Ano 1</label>';
+      html += '<textarea class="fi" style="min-height:52px" '+ro+' onblur="updMeta('+f.id+',\''+area.id+'\',\'ano1\',this.value)" placeholder="Objetivo para o primeiro ano...">'+esc(m.ano1)+'</textarea>';
+      html += '<label class="fl" style="margin-bottom:3px;margin-top:7px">Meta Ano 2</label>';
+      html += '<textarea class="fi" style="min-height:52px" '+ro+' onblur="updMeta('+f.id+',\''+area.id+'\',\'ano2\',this.value)" placeholder="Objetivo para o segundo ano...">'+esc(m.ano2)+'</textarea>';
+      html += '<label class="fl" style="margin-bottom:3px;margin-top:7px">Link / Documento</label>';
+      if(m.link) {
+        html += '<div style="display:flex;align-items:center;gap:6px"><a class="link-tag" href="'+esc(m.link)+'" target="_blank">📎 '+esc(m.link).replace(/https?:\/\//,'').substring(0,28)+'…</a>';
+        if(isEdit) html += '<button class="btn btn-s btn-sm" onclick="updMeta('+f.id+',\''+area.id+'\',\'link\',\'\');swTab(\'perfil\')">✕</button>';
+        html += '</div>';
+      } else if(isEdit) {
+        html += '<input class="fi" placeholder="Cole o link..." onblur="if(this.value){updMeta('+f.id+',\''+area.id+'\',\'link\',this.value);swTab(\'perfil\');}" />';
+      } else {
+        html += '<span style="font-size:.76rem;color:var(--muted)">—</span>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+    if(isEdit) html += '<button class="btn btn-p" onclick="toast(\'Metas salvas.\')">Salvar todas as metas</button>';
+    // PDI
+    if(isEdit) {
+      html += '<div class="divider"></div>';
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px"><div class="card-title" style="margin-bottom:0">📋 PDI — Plano de Desenvolvimento Individual</div><button class="btn btn-p btn-sm" onclick="abrirPDI('+f.id+')">+ Novo PDI</button></div>';
+      html += renderPDIList(f);
+    } else {
+      html += '<div style="font-size:.8rem;color:var(--muted);padding:8px">PDI restrito à coordenação e preceptoria.</div>';
+    }
+    return html;
+  }
+  if(tab==='comp') {
+    var html = '<div class="card">';
+    html += '<div style="font-size:.79rem;color:var(--muted);margin-bottom:12px">Nível EPA: 1=Observa · 2=Sup. direta · 3=Sup. indireta · 4=Autonomia · 5=Supervisiona outros</div>';
+    var secoes = [{lbl:'🔧 Técnicas',comps:COMP_TEC,grp:'tec'},{lbl:'🩺 Clínicas',comps:COMP_CLI,grp:'cli'},{lbl:'🤝 Comportamentais',comps:COMP_COM,grp:'com'}];
+    secoes.forEach(function(s,si) {
+      if(si>0) html += '<div class="divider"></div>';
+      html += '<div class="sl">'+s.lbl+'</div>';
+      s.comps.forEach(function(comp) {
+        var nivel = (f.competencias[s.grp]&&f.competencias[s.grp][comp])||0;
+        var labels = ['','Observa','Sup. direta','Sup. indireta','Autonomia','Supervisiona'];
+        html += '<div style="border:1px solid var(--g200);border-radius:var(--r);padding:10px 13px;margin-bottom:7px">';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(isEdit?'7px':'0')+'">';
+        html += '<span style="font-size:.83rem;font-weight:500">'+esc(comp)+'</span>';
+        html += '<div style="display:flex;align-items:center;gap:5px">';
+        if(nivel) html += '<span class="badge b-gray" style="font-size:.66rem">'+labels[nivel]+'</span>';
+        html += '<div style="display:flex;gap:2px">';
+        [1,2,3,4,5].forEach(function(i){ html += '<div class="epa-dot'+(nivel>=i?' l'+i:'')+'"></div>'; });
+        html += '</div></div></div>';
+        if(isEdit) {
+          html += '<div style="display:flex;gap:4px;flex-wrap:wrap">';
+          [1,2,3,4,5].forEach(function(i){ html += '<button class="epa-btn'+(nivel===i?' s'+i:'')+'" onclick="setComp('+f.id+',\''+s.grp+'\',\''+esc(comp)+'\','+i+')"> '+i+'</button>'; });
+          html += '</div>';
+        }
+        html += '</div>';
+      });
+    });
+    html += '</div>';
+    return html;
+  }
+  if(tab==='aval') {
+    var html = '<div class="tabs-bar" style="margin-bottom:12px"><button class="tab-btn on" id="atb-cor" onclick="swAval(\'cor\')">Notas Coreme</button><button class="tab-btn" id="atb-cx" onclick="swAval(\'cx\')">Mini-CEX</button></div>';
+    html += '<div id="atp-cor"><div class="card">';
+    html += '<div style="font-size:.79rem;color:var(--muted);margin-bottom:11px">Notas formais Coreme. Mínimo: 7,0.</div>';
+    f.notas.forEach(function(n) {
+      var cls = n.status==='ok'?'nc-ok':n.status==='warn'?'nc-w':'nc-na';
+      html += '<div class="nota-row"><div class="nc '+cls+'">'+(n.nota!==null?n.nota.toFixed(1):'—')+'</div><div style="flex:1;font-size:.83rem;font-weight:500">'+esc(n.sem)+'</div><span class="badge '+(n.status==='ok'?'b-green':n.status==='warn'?'b-amber':'b-gray')+'">'+(n.status==='ok'?'Aprovado':n.status==='warn'?'Atenção':'Pendente')+'</span></div>';
+    });
+    if(!f.notas.length) html += '<div style="font-size:.8rem;color:var(--muted)">Nenhuma nota.</div>';
+    if(isEdit) {
+      html += '<div class="divider"></div><div class="sl">Adicionar nota</div>';
+      html += '<div class="fr" style="align-items:flex-end"><div class="fg"><label class="fl">Semestre</label><input class="fi" id="ns-sem" placeholder="Ex.: 1º sem 2025"/></div><div class="fg" style="flex:0 0 90px"><label class="fl">Nota</label><input class="fi" type="number" min="0" max="10" step="0.1" id="ns-val"/></div><button class="btn btn-p" onclick="addNota('+f.id+')">Adicionar</button></div>';
+    }
+    html += '</div></div>';
+    html += '<div id="atp-cx" style="display:none"><div class="card">';
+    if(isEdit) html += '<button class="btn btn-p btn-sm" style="margin-bottom:11px" onclick="abrirCEX('+f.id+')">+ Nova avaliação Mini-CEX</button>';
+    f.minicex.forEach(function(m) {
+      html += '<div style="border:1px solid var(--g200);border-radius:var(--r);padding:11px;margin-bottom:8px">';
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px"><div style="font-size:.83rem;font-weight:600">'+esc(m.comp)+'</div><div style="display:flex;gap:5px;align-items:center"><span class="badge b-blue">EPA '+m.epa+'</span><span style="font-size:.71rem;color:var(--muted)">'+esc(m.data||'')+'</span></div></div>';
+      html += '<div style="font-size:.78rem;color:var(--muted)">🏥 '+esc(m.cen)+' · '+esc(m.caso)+' · '+esc(m.aval)+'</div>';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px;font-size:.76rem"><div><strong>✅</strong> '+esc(m.forte)+'</div><div><strong>📈</strong> '+esc(m.melhora)+'</div></div>';
+      if(m.plano) html += '<div style="font-size:.76rem;margin-top:4px"><strong>🎯</strong> '+esc(m.plano)+'</div>';
+      html += '</div>';
+    });
+    if(!f.minicex.length) html += '<div style="font-size:.8rem;color:var(--muted)">Nenhuma avaliação registrada.</div>';
+    html += '</div></div>';
+    return html;
+  }
+  if(tab==='rodizio') {
+    var html = '<div class="card">';
+    html += '<div style="font-size:.79rem;color:var(--muted);margin-bottom:12px">Rotações mensais — edite cada campo.</div>';
+    html += '<div class="rod-grid">';
+    MESES.forEach(function(m,i) {
+      html += '<div class="rod-mes"><div class="rod-mes-lbl">'+MESES_LABEL[i]+'</div><input value="'+esc(f.rodizio&&f.rodizio[m]?f.rodizio[m]:'')+'" '+(isEdit?'':'readonly')+' onblur="updRod('+f.id+',\''+m+'\',this.value)" placeholder="Local..."/></div>';
+    });
+    html += '</div><div class="divider"></div>';
+    html += '<div class="fr"><div class="fg"><label class="fl">Rodízio externo</label><input class="fi" value="'+esc(f.rodizio&&f.rodizio.ext?f.rodizio.ext:'—')+'" '+(isEdit?'':'readonly')+' onblur="updRod('+f.id+',\'ext\',this.value)"/></div></div>';
+    if(isEdit) html += '<button class="btn btn-p" onclick="toast(\'Rodízio salvo.\')">Salvar rodízio</button>';
+    html += '</div>';
+    return html;
+  }
+  if(tab==='portfolio') {
+    var p = f.portfolio||{};
+    var html = '<div class="card">';
+    var itens = [
+      {campo:'tcc',link:'link_tcc',lbl:'📚 TCC / Resumo acadêmico'},
+      {campo:'gestao',link:'link_gestao',lbl:'🏛️ Projeto de Gestão / Melhoria de processos'},
+      {campo:'inovacao',link:'link_inov',lbl:'💡 Projeto de Inovação / Tecnologia'},
+      {campo:'negocio',link:'link_neg',lbl:'🚀 Projeto de Desenvolvimento de Negócios'}
+    ];
+    itens.forEach(function(it,i) {
+      if(i>0) html += '<div class="divider"></div>';
+      html += '<div class="sl" style="margin-bottom:5px">'+it.lbl+'</div>';
+      html += '<textarea class="fi" style="min-height:50px" '+ro+' onblur="updPort('+f.id+',\''+it.campo+'\',this.value)" placeholder="Descreva brevemente...">'+esc(p[it.campo]||'')+'</textarea>';
+      var lnk = p[it.link]||'';
+      html += '<div style="margin-top:6px"><label class="fl" style="margin-bottom:3px">Link (Drive / OneDrive)</label>';
+      if(lnk) {
+        html += '<div style="display:flex;align-items:center;gap:6px"><a class="link-tag" href="'+esc(lnk)+'" target="_blank">📎 '+esc(lnk).replace(/https?:\/\//,'').substring(0,32)+'…</a>';
+        if(isEdit) html += '<button class="btn btn-s btn-sm" onclick="updPort('+f.id+',\''+it.link+'\',\'\');swTab(\'portfolio\')">✕</button>';
+        html += '</div>';
+      } else if(isEdit) {
+        html += '<input class="fi" placeholder="Cole o link..." onblur="if(this.value){updPort('+f.id+',\''+it.link+'\',this.value);swTab(\'portfolio\');}"/>';
+      } else {
+        html += '<span style="font-size:.76rem;color:var(--muted)">—</span>';
+      }
+      html += '</div>';
+    });
+    if(isEdit) html += '<div style="margin-top:12px"><button class="btn btn-p" onclick="toast(\'Portfólio salvo.\')">Salvar portfólio</button></div>';
+    html += '</div>';
+    return html;
+  }
+  return '';
+}
+
+function swAval(id) {
+  ['cor','cx'].forEach(function(t) {
+    var tb=document.getElementById('atb-'+t);
+    var tp=document.getElementById('atp-'+t);
+    if(tb) tb.classList.toggle('on',t===id);
+    if(tp) tp.style.display=(t===id?'block':'none');
+  });
+}
+
+// ──────────────────────────────────────────────
+// ATUALIZAÇÕES DE CAMPO
+// ──────────────────────────────────────────────
+function updF(id,field,val) { var f=D.formandos.find(function(x){return x.id===id;}); if(f) f[field]=val; }
+function updRod(id,field,val) { var f=D.formandos.find(function(x){return x.id===id;}); if(f){if(!f.rodizio)f.rodizio={};f.rodizio[field]=val;} }
+function updPort(id,field,val) { var f=D.formandos.find(function(x){return x.id===id;}); if(f){if(!f.portfolio)f.portfolio={};f.portfolio[field]=val;} }
+function updMeta(id,area,campo,val) { var f=D.formandos.find(function(x){return x.id===id;}); if(f){if(!f.metas)f.metas=mkMetas();if(!f.metas[area])f.metas[area]={ano1:'',ano2:'',link:''};f.metas[area][campo]=val;} }
+function setComp(fid,grp,comp,nivel) { var f=D.formandos.find(function(x){return x.id===fid;}); if(!f)return; if(!f.competencias)f.competencias={tec:{},cli:{},com:{}}; if(!f.competencias[grp])f.competencias[grp]={}; f.competencias[grp][comp]=nivel; swTab('comp'); toast('Competência atualizada.'); }
+function arquivarF(id) { var f=D.formandos.find(function(x){return x.id===id;}); if(f){f.arquivado=true;fecharFicha();} }
+function desarquivarF(id) { var f=D.formandos.find(function(x){return x.id===id;}); if(f){f.arquivado=false;fecharFicha();} }
+function deletarF(id) { if(!confirm('Excluir permanentemente?'))return; D.formandos=D.formandos.filter(function(x){return x.id!==id;}); fecharFicha(); }
+
+// ──────────────────────────────────────────────
+// MINI-CEX
+// ──────────────────────────────────────────────
+var cexFid = null;
+function abrirCEX(fid) { cexFid=fid; document.getElementById('cx-data').value=new Date().toISOString().split('T')[0]; abrirModal('m-minicex'); }
+function salvarCEX() {
+  var f=D.formandos.find(function(x){return x.id===cexFid;}); if(!f)return;
+  if(!f.minicex)f.minicex=[];
+  f.minicex.push({id:++nxId,cen:document.getElementById('cx-cen').value,caso:document.getElementById('cx-caso').value,comp:document.getElementById('cx-comp').value,aval:document.getElementById('cx-aval').value,forte:document.getElementById('cx-forte').value,melhora:document.getElementById('cx-melhora').value,plano:document.getElementById('cx-plano').value,epa:parseInt(document.getElementById('cx-epa').value),data:document.getElementById('cx-data').value});
+  fecharModal('m-minicex'); swTab('aval'); toast('Mini-CEX salvo.');
+}
+
+// ──────────────────────────────────────────────
+// PDI
+// ──────────────────────────────────────────────
+var pdiFid = null;
+function abrirPDI(fid) { pdiFid=fid; abrirModal('m-pdi'); }
+function salvarPDI() {
+  var f=D.formandos.find(function(x){return x.id===pdiFid;}); if(!f)return;
+  if(!f.pdi)f.pdi=[];
+  f.pdi.push({id:++nxId,fragilidade:document.getElementById('pdi-frag').value,evidencia:document.getElementById('pdi-evid').value,comp:document.getElementById('pdi-comp').value,impacto:document.getElementById('pdi-imp').value,intervencao:document.getElementById('pdi-int').value,responsavel:document.getElementById('pdi-resp').value,prazo:document.getElementById('pdi-prazo').value,status:document.getElementById('pdi-status').value});
+  fecharModal('m-pdi'); swTab('perfil'); toast('PDI salvo.');
+}
+function renderPDIList(f) {
+  if(!f.pdi||!f.pdi.length) return '<div style="font-size:.8rem;color:var(--muted);padding:7px">Nenhum item de PDI.</div>';
+  var html = '';
+  f.pdi.forEach(function(p) {
+    html += '<div class="pdi-row '+p.status+'">';
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div style="font-size:.83rem;font-weight:600">'+esc(p.fragilidade)+'</div><span class="badge '+(p.status==='ok'?'b-green':p.status==='and'?'b-amber':'b-red')+'">'+(p.status==='ok'?'Concluído':p.status==='and'?'Em andamento':'Pendente')+'</span></div>';
+    html += '<div style="font-size:.76rem;color:var(--muted)">'+esc(p.comp)+' · '+esc(p.responsavel)+' · '+esc(p.prazo||'—')+'</div>';
+    html += '<div style="font-size:.76rem;margin-top:3px">'+esc(p.intervencao)+'</div>';
+    html += '<div style="display:flex;gap:5px;margin-top:7px">';
+    html += '<button class="btn btn-g btn-sm" onclick="updPDI('+f.id+','+p.id+',\'ok\')">✓ Concluído</button>';
+    html += '<button class="btn btn-s btn-sm" onclick="updPDI('+f.id+','+p.id+',\'and\')">Em andamento</button>';
+    html += '<button class="btn btn-d btn-sm" onclick="delPDI('+f.id+','+p.id+')">Remover</button>';
+    html += '</div></div>';
+  });
+  return html;
+}
+function updPDI(fid,pid,status) { var f=D.formandos.find(function(x){return x.id===fid;}); var p=f.pdi.find(function(x){return x.id===pid;}); if(p){p.status=status;swTab('perfil');toast('PDI atualizado.');} }
+function delPDI(fid,pid) { var f=D.formandos.find(function(x){return x.id===fid;}); f.pdi=f.pdi.filter(function(p){return p.id!==pid;}); swTab('perfil'); }
+
+// ──────────────────────────────────────────────
+// NOTA
+// ──────────────────────────────────────────────
+function addNota(fid) {
+  var f=D.formandos.find(function(x){return x.id===fid;}); if(!f)return;
+  var sem=document.getElementById('ns-sem').value.trim();
+  var val=parseFloat(document.getElementById('ns-val').value);
+  if(!sem||isNaN(val))return;
+  f.notas.push({id:++nxId,sem:sem,nota:parseFloat(val.toFixed(1)),status:val>=7?'ok':'warn'});
+  swTab('aval'); toast('Nota adicionada.');
+}
+
+// ──────────────────────────────────────────────
+// NOVO FORMANDO
+// ──────────────────────────────────────────────
+function salvarFormando() {
+  var nome=document.getElementById('nf-nome').value.trim(); if(!nome)return;
+  var f = mkF(++nxId,nome,document.getElementById('nf-tipo').value,parseInt(document.getElementById('nf-ano').value),document.getElementById('nf-crm').value.trim(),document.getElementById('nf-cpf').value.trim(),document.getElementById('nf-tel').value.trim(),document.getElementById('nf-email').value.trim(),document.getElementById('nf-end').value.trim(),document.getElementById('nf-perfil').value,'');
+  f.turma = document.getElementById('nf-turma').value;
+  D.formandos.push(f);
+  fecharModal('m-formando');
+  ['nf-nome','nf-crm','nf-cpf','nf-tel','nf-email','nf-end'].forEach(function(i){document.getElementById(i).value='';});
+  renderFormandos(); toast('Formando cadastrado.');
+}
+
+// ══════════════════════════════════════════════
+// RODIZIOS
+// ══════════════════════════════════════════════
+function renderRodizios(filtro) {
+  var lista = D.formandos.filter(function(f){return f.turma===D.turmaSel&&!f.arquivado;});
+  if(filtro==='Residente') lista=lista.filter(function(f){return f.tipo==='Residente';});
+  else if(filtro==='Especializando') lista=lista.filter(function(f){return f.tipo==='Especializando';});
+  else if(filtro==='Eco') lista=lista.filter(function(f){return f.tipo==='Eco';});
+  else if(filtro==='1') lista=lista.filter(function(f){return f.ano===1;});
+  else if(filtro==='2') lista=lista.filter(function(f){return f.ano===2;});
+  var html = '<div class="ph"><div><div class="ph-title">Programação de Rodízios</div><div class="ph-sub">Rotações mensais — até 20 vagas</div></div></div>';
+  html += '<div class="card"><div style="margin-bottom:10px;display:flex;gap:7px;flex-wrap:wrap">';
+  ['','Residente','Especializando','Eco','1','2'].forEach(function(v){
+    var lbl=v===''?'Todos':v==='1'?'Ano 1':v==='2'?'Ano 2':v;
+    html += '<button class="fb" onclick="renderRodizios(\''+v+'\')">'+lbl+'</button>';
+  });
+  html += '</div><div style="overflow-x:auto"><table class="rot"><thead><tr><th>Formando</th><th>Tipo</th>';
+  MESES_LABEL.forEach(function(m){html+='<th>'+m+'</th>';});
+  html += '<th>Externo</th></tr></thead><tbody>';
+  lista.forEach(function(f) {
+    html += '<tr><td style="font-weight:500;cursor:pointer;color:var(--cobalt)" onclick="abrirFichaRod('+f.id+')">'+esc(f.nome)+'</td>';
+    html += '<td><span class="badge '+(f.tipo==='Residente'?'b-blue':f.tipo==='Eco'?'b-teal':'b-amber')+'" style="font-size:.65rem">'+(f.tipo==='Residente'?'R':f.tipo==='Eco'?'Eco':'E')+f.ano+'</span></td>';
+    MESES.forEach(function(m){html+='<td style="font-size:.75rem;color:var(--muted);white-space:nowrap">'+esc((f.rodizio&&f.rodizio[m])||'—')+'</td>';});
+    html += '<td style="font-size:.75rem;'+(f.rodizio&&f.rodizio.ext&&f.rodizio.ext!=='—'?'color:var(--amber);font-weight:500':'')+'">'+(f.rodizio&&f.rodizio.ext?esc(f.rodizio.ext):'—')+'</td></tr>';
+  });
+  if(!lista.length) html += '<tr><td colspan="16" style="text-align:center;padding:22px;color:var(--muted)">Nenhum formando.</td></tr>';
+  html += '</tbody></table></div></div>';
+  document.getElementById('pg-rodizios').innerHTML = html;
+}
+function abrirFichaRod(id) { irPara('formandos',null); abrirFicha(id); }
+
+// ══════════════════════════════════════════════
+// PAINEL
+// ══════════════════════════════════════════════
+function renderPainel() {
+  var todos = D.formandos.filter(function(f){return f.turma===D.turmaSel&&!f.arquivado;});
+  var alertas = todos.filter(function(f){return f.notas.some(function(n){return n.status==='warn';})||(f.pdi&&f.pdi.some(function(p){return p.status!=='ok';}));});
+  var html = '<div class="ph"><div><div class="ph-title">Painel Pedagógico</div><div class="ph-sub">PDI · Alertas · Progresso — restrito à coordenação</div></div></div>';
+  html += '<div class="metrics">';
+  html += '<div class="mc acc"><div class="mc-lbl">Formandos</div><div class="mc-val">'+todos.length+'</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">PDIs ativos</div><div class="mc-val">'+todos.reduce(function(a,f){return a+(f.pdi?f.pdi.filter(function(p){return p.status!=='ok';}).length:0);},0)+'</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">Mini-CEX</div><div class="mc-val">'+todos.reduce(function(a,f){return a+(f.minicex?f.minicex.length:0);},0)+'</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">Alertas</div><div class="mc-val" style="color:var(--red)">'+alertas.length+'</div></div>';
+  html += '<div class="mc"><div class="mc-lbl">Milestones</div><div class="mc-val">'+D.milestones.length+'</div></div>';
+  html += '</div>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+  html += '<div class="card" style="margin-bottom:0"><div class="card-title">⚠️ Alertas Formativos</div>';
+  if(alertas.length) {
+    alertas.forEach(function(f) {
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--g100);font-size:.8rem"><div><div style="font-weight:500">'+esc(f.nome)+'</div><div style="font-size:.74rem;color:var(--muted)">'+(f.notas.some(function(n){return n.status==='warn';})?' ⚠ Nota baixa':'')+' '+(f.pdi&&f.pdi.some(function(p){return p.status!=='ok';})?' · PDI pendente':'')+'</div></div><button class="btn btn-s btn-sm" onclick="abrirFichaRod('+f.id+')">Ver</button></div>';
+    });
+  } else { html += '<div style="font-size:.8rem;color:var(--muted)">Nenhum alerta.</div>'; }
+  html += '</div>';
+  html += '<div class="card" style="margin-bottom:0"><div class="card-title">📋 PDIs Pendentes</div>';
+  var pdisAtivos = todos.reduce(function(acc,f){return acc.concat((f.pdi||[]).filter(function(p){return p.status!=='ok';}).map(function(p){return Object.assign({},p,{nome:f.nome,fid:f.id});}));}, []);
+  if(pdisAtivos.length) {
+    pdisAtivos.slice(0,5).forEach(function(p) {
+      html += '<div class="pdi-row '+p.status+'" style="padding:9px;margin-bottom:7px"><div style="font-size:.79rem;font-weight:600">'+esc(p.nome)+'</div><div style="font-size:.75rem;color:var(--muted)">'+esc(p.fragilidade)+'</div><span class="badge '+(p.status==='and'?'b-amber':'b-red')+'" style="font-size:.66rem;margin-top:4px">'+(p.status==='and'?'Em andamento':'Pendente')+'</span></div>';
+    });
+  } else { html += '<div style="font-size:.8rem;color:var(--muted)">Nenhum PDI pendente.</div>'; }
+  html += '</div></div>';
+  html += '<div class="card" style="margin-top:12px"><div class="card-title">📊 Progresso por Formando</div><table style="width:100%;border-collapse:collapse;font-size:.79rem"><thead><tr style="border-bottom:1px solid var(--g200)"><th style="text-align:left;padding:6px 10px;font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--muted)">Formando</th><th style="padding:6px 10px;font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--muted)">Técnicas</th><th style="padding:6px 10px;font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--muted)">Clínicas</th><th style="padding:6px 10px;font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--muted)">Mini-CEX</th><th style="padding:6px 10px;font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--muted)">PDI abertos</th></tr></thead><tbody>';
+  todos.forEach(function(f) {
+    var tc=Object.keys((f.competencias&&f.competencias.tec)||{}).filter(function(k){return f.competencias.tec[k]>0;}).length;
+    var cc=Object.keys((f.competencias&&f.competencias.cli)||{}).filter(function(k){return f.competencias.cli[k]>0;}).length;
+    var pdiOpen = (f.pdi||[]).filter(function(p){return p.status!=='ok';}).length;
+    html += '<tr style="border-bottom:1px solid var(--g100)"><td style="padding:7px 10px;font-weight:500;cursor:pointer;color:var(--cobalt)" onclick="abrirFichaRod('+f.id+')">'+esc(f.nome)+'</td><td style="padding:7px 10px;text-align:center">'+tc+'/'+COMP_TEC.length+'</td><td style="padding:7px 10px;text-align:center">'+cc+'/'+COMP_CLI.length+'</td><td style="padding:7px 10px;text-align:center">'+(f.minicex?f.minicex.length:0)+'</td><td style="padding:7px 10px;text-align:center"><span class="badge '+(pdiOpen>0?'b-amber':'b-green')+'">'+pdiOpen+'</span></td></tr>';
+  });
+  html += '</tbody></table></div>';
+  document.getElementById('pg-painel').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════
+// MILESTONES
+// ══════════════════════════════════════════════
+function renderMilestones() {
+  var html = '<div class="ph"><div><div class="ph-title">Milestones</div><div class="ph-sub">Progressão longitudinal — coordenação e preceptoria</div></div><button class="btn btn-p" onclick="abrirModal(\'m-ms\')">+ Registrar</button></div>';
+  html += '<div class="card">';
+  var lista = D.milestones.filter(function(m){return D.formandos.find(function(f){return f.id===m.fid&&f.turma===D.turmaSel;});});
+  if(lista.length) {
+    lista.forEach(function(m) {
+      var f=D.formandos.find(function(x){return x.id===m.fid;});
+      var pct=Math.round((m.atual/5)*100);
+      var barColor=m.atual>=4?'var(--green)':m.atual>=3?'var(--cobalt)':m.atual>=2?'var(--amber)':'var(--red)';
+      html += '<div class="ms-item"><div style="min-width:130px;font-size:.8rem"><div style="font-weight:500">'+esc(f?f.nome:'—')+'</div><div style="font-size:.71rem;color:var(--muted)">'+esc(m.comp)+'</div></div><div class="ms-bar-wrap"><div class="ms-bar" style="width:'+pct+'%;background:'+barColor+'"></div></div><div style="min-width:90px;font-size:.76rem;display:flex;flex-direction:column;gap:2px"><span class="badge b-gray">Atual: EPA '+m.atual+'</span><span class="badge b-blue">Esp.: EPA '+m.esp+'</span></div><span style="font-size:.76rem">'+esc(m.tend)+'</span></div>';
+    });
+  } else { html += '<div class="empty"><div class="empty-icon">📊</div><p>Nenhum milestone registrado.</p></div>'; }
+  html += '</div>';
+  document.getElementById('pg-milestones').innerHTML = html;
+}
+function salvarMS() {
+  var fid=parseInt(document.getElementById('ms-form').value);
+  D.milestones.push({id:++nxId,fid:fid,comp:document.getElementById('ms-comp').value,atual:parseInt(document.getElementById('ms-atual').value),esp:parseInt(document.getElementById('ms-esp').value),tend:document.getElementById('ms-tend').value,obs:document.getElementById('ms-obs').value,data:new Date().toISOString().split('T')[0]});
+  fecharModal('m-ms'); renderMilestones(); toast('Milestone salvo.');
+}
+
+// ══════════════════════════════════════════════
+// SERVIÇO
+// ══════════════════════════════════════════════
+function renderServico() {
+  var html = '<div class="ph"><div><div class="ph-title">Funcionamento do Serviço</div></div></div>';
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:14px">';
+  html += '<div class="card" style="margin-bottom:0"><div class="card-title">Horário</div><table style="width:100%;font-size:.81rem;border-collapse:collapse">';
+  [['Seg a Sex','07h00–18h00'],['Plantão Sáb/Dom','07h00–07h00'],['Reunião Geral','Sexta 08h00'],['Visita Enfermaria','Diária 07h30']].forEach(function(r){
+    html+='<tr><td style="padding:4px 0;color:var(--muted)">'+r[0]+'</td><td style="text-align:right;font-weight:600">'+r[1]+'</td></tr>';
+  });
+  html += '</table></div>';
+  html += '<div class="card" style="margin-bottom:0"><div class="card-title">Locais</div><table style="width:100%;font-size:.78rem;border-collapse:collapse">';
+  [['Ambulatórios','Bloco A · 2,3,4,5'],['Enfermaria','5º andar · Ala B'],['Hemodinâmica','Bloco C · Térreo'],['Lab. Eco','Bloco A · 1º andar'],['Lab. Ergometria','Bloco A · 2º andar'],['RM / TC','Bloco B · Subsolo'],['Med. Nuclear','Bloco D'],['Sala Reuniões','Bloco C · 2º andar']].forEach(function(r){
+    html+='<tr><td style="padding:3px 0;color:var(--muted)">'+r[0]+'</td><td style="text-align:right">'+r[1]+'</td></tr>';
+  });
+  html += '</table></div></div>';
+  html += '<div class="card"><div class="card-title">Contatos da Coordenação</div>';
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px">';
+  D.contatos.forEach(function(c) {
+    html += '<div class="card" style="margin-bottom:0;padding:12px 13px">';
+    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><div style="width:34px;height:34px;border-radius:50%;background:var(--sky);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600;color:var(--cobalt)">'+ini(c.nome)+'</div><div><div style="font-size:.84rem;font-weight:600">'+esc(c.nome)+'</div><div style="font-size:.72rem;color:var(--muted)">'+esc(c.cargo)+'</div></div>';
+    if(PERFIL==='coordenador') html += '<button class="btn btn-d btn-sm" style="margin-left:auto" onclick="delContato('+c.id+')">✕</button>';
+    html += '</div><div style="font-size:.77rem;color:var(--muted)">'+esc(c.tel)+' · <a href="mailto:'+esc(c.email)+'" style="color:var(--cobalt)">'+esc(c.email)+'</a></div></div>';
+  });
+  html += '</div>';
+  if(PERFIL==='coordenador') html += '<button class="btn btn-s" style="margin-top:10px" onclick="abrirModal(\'m-contato\')">+ Adicionar contato</button>';
+  html += '</div>';
+  document.getElementById('pg-servico').innerHTML = html;
+}
+function salvarContato() {
+  var n=document.getElementById('ct-nome').value.trim(); if(!n)return;
+  D.contatos.push({id:++nxId,nome:n,cargo:document.getElementById('ct-cargo').value,tel:document.getElementById('ct-tel').value,email:document.getElementById('ct-email').value});
+  fecharModal('m-contato'); renderServico(); toast('Contato salvo.');
+}
+function delContato(id) { D.contatos=D.contatos.filter(function(c){return c.id!==id;}); renderServico(); }
+
+// ══════════════════════════════════════════════
+// EXPORTAR PDF
+// ══════════════════════════════════════════════
+function exportarPDF(id) {
+  var f=D.formandos.find(function(x){return x.id===id;}); if(!f)return;
+  var notas=f.notas.map(function(n){return n.sem+': '+n.nota+' ('+( n.status==='ok'?'Aprovado':'Atenção')+')\n';}).join('');
+  var txt='FORMAÇÃO EM CARDIOLOGIA — HC-UFPE\n'+'='.repeat(48)+'\n\nNOME: '+f.nome+'\nCRM: '+f.crm+'\nCPF: '+f.cpf+'\nTIPO: '+f.tipo+' — Ano '+f.ano+'\nPERFIL: '+f.perfil+'\nE-MAIL: '+f.email+'\nTELEFONE: '+f.tel+'\nENDEREÇO: '+f.end+'\nTURMA: '+f.turma+'\n\n'+'—'.repeat(48)+'\nNOTAS COREME\n'+'—'.repeat(48)+'\n'+(notas||'Nenhuma nota.')+'\n\n'+'—'.repeat(48)+'\nPERFIL\n'+'—'.repeat(48)+'\n'+(f.perfil_desc||'—')+'\n\n'+'—'.repeat(48)+'\nPORTFÓLIO\n'+'—'.repeat(48)+'\nTCC: '+(f.portfolio&&f.portfolio.tcc||'—')+'\nGestão: '+(f.portfolio&&f.portfolio.gestao||'—')+'\nInovação: '+(f.portfolio&&f.portfolio.inovacao||'—')+'\nNegócios: '+(f.portfolio&&f.portfolio.negocio||'—')+'\n\nMini-CEX: '+(f.minicex?f.minicex.length:0)+'\nPDI ativos: '+((f.pdi||[]).filter(function(p){return p.status!=='ok';}).length)+'\n\n'+'—'.repeat(48)+'\nExportado em: '+new Date().toLocaleDateString('pt-BR')+' · HC-UFPE v3.0';
+  var blob=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='Ficha_Coreme_'+f.nome.replace(/\s/g,'_')+'.txt';a.click();URL.revokeObjectURL(url);
+  toast('Ficha exportada.');
+}
+</script>
+</body>
+</html>
